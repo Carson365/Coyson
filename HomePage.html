@@ -1,26 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carsoy</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="./HomePage.css">
-</head>
-<body> 
-    <nav class="navbar navbar-dark bg-dark justify-content-between fixed-top">
-        <span class="navbar-brand">3rd & Chester</span>
-        <form class="form-inline">
-          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" id="bookSearchBar">
-        </form>
-    </nav>
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Carsoy</title>
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+      <link rel="stylesheet" href="./HomePage.css">
+   </head>
+   <body onload="handleOnLoad()">
+      <!-- Navbar -->
+      <nav class="navbar navbar-dark bg-dark">
+         <a class="navbar-brand" href="./HomePage.html">
+            <img src="https://bookbugkalamazoo.com/sites/default/files/styles/image_row/public/2024-09/tiab-bb-cta-home-books.png?itok=iePACZ9F" width="30" height="30" class="d-inline-block align-top" alt="Example Bookstore Logo">
+            <span id="title">3rd & Chester</span>
+         </a>
+         <form class="d-flex mx-auto w-25" onsubmit="return false;">
+            <input class="form-control me-2 w-100" type="search" placeholder="Search" id="bookSearch">
+         </form>
+      </nav>
 
-    <div class="container">
-        <div class="col">
-            test
-        </div>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <script src="./HomePage.js"></script>
-</body>
+    <!-- Sidebar-->
+      <div class="container-fluid">
+         <div class="row">
+            <div class="col-md-3 sidebar">
+               <div class="sidebar-header">Sidebar</div>
+               <ul>
+                  <li>Different</li>
+                  <li>Button</li>
+                  <li>Options</li>
+               </ul>
+            </div>
+
+            <!-- Main Page-->
+            <div class="col-md-9 main-content">
+               <div class="row" id="cards-row">
+               </div>
+            </div>
+         </div>
+      </div>
+
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+      <script src="./HomePage.js"></script>
+   </body>
 </html>

@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../SearchBar"
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "Coyson"
+	}
+}
