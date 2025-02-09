@@ -1,12 +1,12 @@
 let visibleBooks = [
-    { name: "Testing", id: 1},
-    { name: "Different", id: 2},
-    { name: "Names", id: 3},
-    { name: "To", id: 4},
-    { name: "Try", id: 5},
-    { name: "The", id: 6},
-    { name: "Search", id: 7},
-    { name: "Bar", id: 8}
+    { name: "Testing", id: 1 },
+    { name: "Different", id: 2 },
+    { name: "Names", id: 3 },
+    { name: "To", id: 4 },
+    { name: "Try", id: 5 },
+    { name: "The", id: 6 },
+    { name: "Search", id: 7 },
+    { name: "Bar", id: 8 }
 ];
 
 function handleOnLoad() {
@@ -14,8 +14,9 @@ function handleOnLoad() {
 }
 
 function populateCards() {
+    document.getElementsByClassName('main')[0].innerHTML = '';
     visibleBooks.forEach((book) => {
-        document.getElementsByClassName('main')[0].innerHTML +=`
+        document.getElementsByClassName('main')[0].innerHTML += `
         <div class="card">
             <img class="card-img-top" src="https://m.media-amazon.com/images/I/91U6rc7u0yL.jpg" alt="Card image cap">
             <div class="card-body">
@@ -28,34 +29,9 @@ function populateCards() {
     });
 }
 
-document.getElementById('bookSearch').addEventListener("input", function(e) {
-    console.log(e.target.value);
-
-    // Clear the previous search results
-    let searchArr = [];
-
-    visibleBooks.forEach(book => {
-        let searchVal = {
-            id: book.id,
-            score: similarity(e.target.value, book.name)
-        };
-        searchArr.push(searchVal);
-    });
-
-    // Sort the results by score
-    searchArr.sort((b, a) => a.score - b.score);
-
-    // Get the sorted list of shop IDs
-    const sortedIds = searchArr.map(item => item.id);
-
-    console.log(searchArr)
-
-    // Sort the original allShops array based on the sorted IDs
-    visibleBooks.sort((a, b) => {
-        return sortedIds.indexOf(a.id) - sortedIds.indexOf(b.id);
-    });
-
-    populateCards()
+document.getElementById('bookSearch').addEventListener("input", function (e) {
+    searchArr = visibleBooks.sort((a, b) => similarity(e.target.value, b.name) - similarity(e.target.value, a.name));
+    populateCards();
 });
 
 function similarity(s1, s2) {
@@ -66,15 +42,9 @@ function similarity(s1, s2) {
 
 function levenshteinDistance(s1, s2) {
     const dp = Array(s1.length + 1).fill(null).map(() => Array(s2.length + 1).fill(null));
-    
-    for (let i = 0; i <= s1.length; i++) {
-        dp[i][0] = i;
-    }
-    
-    for (let j = 0; j <= s2.length; j++) {
-        dp[0][j] = j;
-    }
-    
+    for (let i = 0; i <= s1.length; i++) dp[i][0] = i;
+    for (let j = 0; j <= s2.length; j++) dp[0][j] = j;
+
     for (let i = 1; i <= s1.length; i++) {
         for (let j = 1; j <= s2.length; j++) {
             const cost = s1[i - 1] === s2[j - 1] ? 0 : 1;
@@ -85,6 +55,5 @@ function levenshteinDistance(s1, s2) {
             );
         }
     }
-    
     return dp[s1.length][s2.length];
 }
