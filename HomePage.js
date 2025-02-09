@@ -1,4 +1,4 @@
-let visableBooks = [
+let visibleBooks = [
     { name: "Testing", id: 1},
     { name: "Different", id: 2},
     { name: "Names", id: 3},
@@ -14,14 +14,9 @@ function handleOnLoad() {
 }
 
 function populateCards() {
-    let col1Html = '';
-    let col2Html = '';
-    let col3Html = '';
-    let count = 1;
-
-    visableBooks.forEach((book) => {
-        let card = `
-        <div class="card mb-4" style="width: 18rem;">
+    visibleBooks.forEach((book) => {
+        document.getElementsByClassName('main')[0].innerHTML +=`
+        <div class="card">
             <img class="card-img-top" src="https://m.media-amazon.com/images/I/91U6rc7u0yL.jpg" alt="Card image cap">
             <div class="card-body">
                 <h5 class="card-title">${book.name}</h5>
@@ -30,30 +25,7 @@ function populateCards() {
             </div>
         </div>
         `;
-
-        // Put a card in each column then reset
-        if (count === 1) {
-            col1Html += card;
-            count += 1;
-        } else if (count === 2) {
-            col2Html += card;
-            count += 1;
-        } else {
-            col3Html += card;
-            count = 1;
-        }
     });
-
-    // Creating the bootstrap rows
-    let rows = `
-    <div class="row">
-        <div class="col-md-4" id="Column1">${col1Html}</div>
-        <div class="col-md-4" id="Column2">${col2Html}</div>
-        <div class="col-md-4" id="Column3">${col3Html}</div>
-    </div>
-    `;
-
-    document.getElementsByClassName('main-content')[0].innerHTML = rows;
 }
 
 document.getElementById('bookSearch').addEventListener("input", function(e) {
@@ -62,7 +34,7 @@ document.getElementById('bookSearch').addEventListener("input", function(e) {
     // Clear the previous search results
     let searchArr = [];
 
-    visableBooks.forEach(book => {
+    visibleBooks.forEach(book => {
         let searchVal = {
             id: book.id,
             score: similarity(e.target.value, book.name)
@@ -79,7 +51,7 @@ document.getElementById('bookSearch').addEventListener("input", function(e) {
     console.log(searchArr)
 
     // Sort the original allShops array based on the sorted IDs
-    visableBooks.sort((a, b) => {
+    visibleBooks.sort((a, b) => {
         return sortedIds.indexOf(a.id) - sortedIds.indexOf(b.id);
     });
 
