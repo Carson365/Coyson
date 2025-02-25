@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		},
+		{
+			"path": "../../../Coyson"
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "Coyson"
+	}
+}
