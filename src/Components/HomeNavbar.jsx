@@ -7,8 +7,7 @@ import searchIcon from '../assets/search.png'
 const Navbar = ({ user = "Guest" }) => {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark position-fixed w-100" style={styles.navbar}>
-      <a className="navbar-brand" href="/#/Search">Search</a>
-      <img src={searchIcon} alt="Transactions" style={styles.transactionsIcon} />
+      <a className="navbar-brand" href="/"><h3>3rd & Chester</h3></a>
       <div className="container-fluid d-flex justify-content-between">
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
@@ -17,6 +16,12 @@ const Navbar = ({ user = "Guest" }) => {
         <div className="d-flex ms-auto">
           <ul className="navbar-nav d-flex" id="list" style={styles.navItems}>
             <li className="nav-item active d-flex" style={styles.navItem}>
+
+            <a href="/#/Search" className="d-flex flex-column align-items-center" style={{ ...styles.link, ...styles.transactionsLink }} id="transactions">
+                <span style={styles.transactionsText}>Search</span>
+                <img src={searchIcon} alt="Transactions" style={styles.transactionsIcon} />
+              </a>
+              
               <a href="#" className="d-flex flex-column align-items-center" style={{ ...styles.link, ...styles.transactionsLink }} id="transactions">
                 <span style={styles.transactionsText}>Purchase History</span>
                 <img src={bookIcon} alt="Transactions" style={styles.transactionsIcon} />

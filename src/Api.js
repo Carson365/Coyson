@@ -50,5 +50,6 @@ export const fetchBooksByGenre = async (genre, batchSize) => {
       break;
     }
   }
+
   return booksByGenre;
 };
