@@ -1,6 +1,6 @@
 const Card = ({ book }) => {
   const handleCardClick = () => {
-    // Handle card click event if needed
+    console.log(book);
   };
 
   return (

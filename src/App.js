@@ -15,6 +15,8 @@ function App() {
         <BookCarousel genre={"Mystery"}/>
         <BookCarousel genre={"Biography"}/>
         <BookCarousel genre={"Fantasy"}/>
+        <BookCarousel genre={"AutoBiography"}/>
+        <BookCarousel genre={"Nonfiction"}/>
       </div>
     </div>
   );
