@@ -17,6 +17,10 @@ function Home() {
         <BookCarousel genre={"Fantasy"}/>
         <BookCarousel genre={"AutoBiography"}/>
         <BookCarousel genre={"Nonfiction"}/>
+        <BookCarousel genre={"Thriller"}/>
+        <BookCarousel genre={"Science Fiction"}/>
+        <BookCarousel genre={"Poetry"}/>
+        <BookCarousel genre={"Novel"}/>
       </div>
     </div>
   );

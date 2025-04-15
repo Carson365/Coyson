@@ -1,16 +1,25 @@
 import React from 'react';
 
-const Navbar = ( {onSearchChange} ) => {
+const Navbar = ({ onSearchChange }) => {
   return (
     <nav style={styles.navbar}>
-      <a className="navbar-brand" href="/">3rd & Chester</a>
-      <input
-        id="SearchNavbar"
-        type="text"
-        placeholder="Search books..."
-        style={styles.searchInput}
-        onChange={(e) => onSearchChange(e.target.value)}
-      />
+      <div class="navbar-brand" style={styles.left}>
+        <a href="/" style={styles.brand}>
+          <h3 style={styles.brandText}>Home</h3>
+        </a>
+      </div>
+
+      <div style={styles.center}>
+        <input
+          id="SearchNavbar"
+          type="text"
+          placeholder="Search books..."
+          style={styles.searchInput}
+          onChange={(e) => onSearchChange(e.target.value)}
+        />
+      </div>
+
+      <div style={styles.right}></div>
     </nav>
   );
 };
@@ -24,8 +33,30 @@ const styles = {
     top: 0,
     zIndex: 100000,
     display: 'flex',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     alignItems: 'center',
+  },
+  left: {
+    flex: 1,
+    display: 'flex',
+    alignItems: 'center',
+  },
+  center: {
+    flex: 2,
+    display: 'flex',
+    justifyContent: 'center',
+  },
+  right: {
+    flex: 1,
+  },
+  brand: {
+    textDecoration: 'none',
+  },
+  brandText: {
+    color: 'white',
+    margin: 0,
+    /*fontWeight: 'bold',*/
+    fontSize: '24px',
   },
   searchInput: {
     width: '60%',

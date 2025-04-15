@@ -11,8 +11,12 @@ const cleanBookData = (book, category) => {
     categories: category || "Unavailable", 
     rating: book?.averageRating || "Unavailable",
     maturityRating: book?.maturityRating || "Unavailable",
-    image: book?.imageLinks?.thumbnail || "Unavailable",
+    image: book?.imageLinks?.thumbnail || null,
   };
+};
+
+const isDuplicateBook = (book, genre) => {
+  return booksByGenre[genre].some(existingBook => existingBook.title === book.title);
 };
 
 export const fetchBooksByGenre = async (genre, batchSize) => {
@@ -40,8 +44,11 @@ export const fetchBooksByGenre = async (genre, batchSize) => {
         if (!item.volumeInfo) return;
 
         const cleanedBook = cleanBookData(item.volumeInfo, genre);
-        booksByGenre[genre].push(cleanedBook);
-        booksFetched++;
+
+        if (!isDuplicateBook(cleanedBook, genre) && cleanedBook.image) {
+          booksByGenre[genre].push(cleanedBook);
+          booksFetched++;
+        }
       });
 
       startIndex += currentBatchSize;

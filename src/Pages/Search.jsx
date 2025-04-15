@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Navbar from '../Components/SearchNavbar';
 import SearchList from '../Components/SearchList';
+import { booksByGenre } from '../Api';
 
 function Search() {
   const [input, setInput] = useState('');

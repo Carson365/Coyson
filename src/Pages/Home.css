@@ -73,7 +73,6 @@
     position: relative;
 }
 
-/* Ensure proper spacing for book cards */
 .book-card-wrapper {
     display: flex;
     justify-content: center;
@@ -82,15 +81,13 @@
     min-width: 225px;
 }
 
-/* Title Styling */
 #carTitle {
     color: white;
     font-weight: bold;
     text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7);
-    padding-left: 30px;
+    margin-left: 30px;
 }
 
-/* Move arrows inward dynamically */
 .carousel-control-prev,
 .carousel-control-next {
     width: auto;
@@ -131,4 +128,8 @@
 
 .navbar-brand {
     padding-left: 10px;
+}
+
+h3 {
+    padding-left: 0 !important;
 }

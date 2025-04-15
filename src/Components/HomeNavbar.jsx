@@ -2,12 +2,14 @@ import React from 'react';
 import defaultProfile from '../assets/defaultProfile.png';
 import cartIcon from '../assets/icons8-shopping-cart-48.png';
 import bookIcon from '../assets/icons8-book-50.png';
-import searchIcon from '../assets/search.png'
+import searchIcon from '../assets/search.png';
 
 const Navbar = ({ user = "Guest" }) => {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark position-fixed w-100" style={styles.navbar}>
-      <a className="navbar-brand" href="/"><h3>3rd & Chester</h3></a>
+      <div className="navbar-brand" style={styles.homeButton}>
+        <h3>3rd & Chester</h3>
+      </div>
       <div className="container-fluid d-flex justify-content-between">
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
@@ -17,11 +19,11 @@ const Navbar = ({ user = "Guest" }) => {
           <ul className="navbar-nav d-flex" id="list" style={styles.navItems}>
             <li className="nav-item active d-flex" style={styles.navItem}>
 
-            <a href="/#/Search" className="d-flex flex-column align-items-center" style={{ ...styles.link, ...styles.transactionsLink }} id="transactions">
+              <a href="/#/Search" className="d-flex flex-column align-items-center" style={{ ...styles.link, ...styles.transactionsLink }} id="transactions">
                 <span style={styles.transactionsText}>Search</span>
                 <img src={searchIcon} alt="Transactions" style={styles.transactionsIcon} />
               </a>
-              
+
               <a href="#" className="d-flex flex-column align-items-center" style={{ ...styles.link, ...styles.transactionsLink }} id="transactions">
                 <span style={styles.transactionsText}>Purchase History</span>
                 <img src={bookIcon} alt="Transactions" style={styles.transactionsIcon} />
@@ -121,7 +123,7 @@ const styles = {
     fontSize: '14px',
     fontWeight: 'bold',
     position: 'relative',
-    top: '-3px'
+    top: '-3px',
   },
   transactionsIcon: {
     width: '20px',
@@ -139,6 +141,15 @@ const styles = {
   cartIcon: {
     width: '25px',
     height: '25px',
+  },
+  
+  homeButton: {
+    cursor: 'default',
+    fontSize: '24px',
+    fontWeight: 'bold',
+    color: '#fff',
+    textAlign: 'center',
+    padding: '10px 15px',
   },
 };
 
