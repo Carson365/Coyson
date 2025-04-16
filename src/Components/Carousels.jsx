@@ -6,7 +6,6 @@ const BookCarousel = ({ genre }) => {
   const [books, setBooks] = useState([]);
   const [booksPerPage, setBooksPerPage] = useState(4);
 
-  // Resize logic
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth < 576) {
@@ -25,7 +24,6 @@ const BookCarousel = ({ genre }) => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Watch booksByGenre updates
   useEffect(() => {
     const genreBooks = booksByGenre[genre] || [];
     setBooks(genreBooks);

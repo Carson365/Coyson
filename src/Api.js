@@ -17,14 +17,16 @@ const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 export const fetchAllGenres = async () => {
   for (const genre of allGenres) {
-    await fetchBooksByGenre(genre, 20);
+    await fetchBooksByGenre(genre, 64);
     await delay(200);
   }
+  console.log(booksByGenre)
 };
 
 
 const cleanBookData = (book, category) => {
   return {
+    id: crypto.randomUUID(),
     title: book?.title || "Unavailable",
     subtitle: book?.subtitle || "Unavailable",
     authors: Array.isArray(book?.authors) ? book.authors : [],

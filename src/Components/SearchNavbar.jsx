@@ -6,7 +6,7 @@ const Navbar = ({ onSearchChange }) => {
     <nav style={styles.navbar}>
       <div class="navbar-brand" style={styles.left}>
       <Link to="/" style={styles.brand}>
-        <h3 style={styles.brandText}>Home</h3>
+        <h3 style={styles.brandText}>Back</h3>
       </Link>
       </div>
 
