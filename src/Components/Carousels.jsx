@@ -1,19 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { fetchBooksByGenre } from '../Api';
+import { booksByGenre } from '../Api';
 import Card from './Card';
 
 const BookCarousel = ({ genre }) => {
   const [books, setBooks] = useState([]);
   const [booksPerPage, setBooksPerPage] = useState(4);
 
+  // Resize logic
   useEffect(() => {
-    const loadBooks = async () => {
-      const booksData = await fetchBooksByGenre(genre, 32);
-      setBooks(booksData[genre] || []);
-    };
-
-    loadBooks();
-
     const handleResize = () => {
       if (window.innerWidth < 576) {
         setBooksPerPage(1);
@@ -28,11 +22,14 @@ const BookCarousel = ({ genre }) => {
 
     handleResize();
     window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, [genre]);
+  // Watch booksByGenre updates
+  useEffect(() => {
+    const genreBooks = booksByGenre[genre] || [];
+    setBooks(genreBooks);
+  }, [genre, booksByGenre[genre]?.length]);
 
   const chunkBooks = (arr, size) => {
     const result = [];

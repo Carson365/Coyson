@@ -1,12 +1,13 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Navbar = ({ onSearchChange }) => {
   return (
     <nav style={styles.navbar}>
       <div class="navbar-brand" style={styles.left}>
-        <a href="/" style={styles.brand}>
-          <h3 style={styles.brandText}>Home</h3>
-        </a>
+      <Link to="/" style={styles.brand}>
+        <h3 style={styles.brandText}>Home</h3>
+      </Link>
       </div>
 
       <div style={styles.center}>

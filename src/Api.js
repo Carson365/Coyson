@@ -1,5 +1,28 @@
 export let booksByGenre = {};
 
+const allGenres = [
+  "Fiction",
+  "Mystery",
+  "Biography",
+  "Fantasy",
+  "AutoBiography",
+  "Nonfiction",
+  "Thriller",
+  "Science Fiction",
+  "Poetry",
+  "Novel"
+];
+
+const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+export const fetchAllGenres = async () => {
+  for (const genre of allGenres) {
+    await fetchBooksByGenre(genre, 20);
+    await delay(200);
+  }
+};
+
+
 const cleanBookData = (book, category) => {
   return {
     title: book?.title || "Unavailable",
@@ -58,5 +81,7 @@ export const fetchBooksByGenre = async (genre, batchSize) => {
     }
   }
 
-  return booksByGenre;
+  console.log(`Loaded ${genre}:`);
+
+  return booksByGenre[genre];
 };
