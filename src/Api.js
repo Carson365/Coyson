@@ -1,6 +1,6 @@
 export let booksByGenre = {};
 
-const allGenres = [
+export const allGenres = [
   "Fiction",
   "Mystery",
   "Biography",
