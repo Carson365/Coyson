@@ -36,20 +36,19 @@ export const fetchAllGenres = async () => {
   console.log(booksByGenre);
 };
 
-const cleanBookData = (book, genre) => {
-  const matchedGenre = book.categories?.find(cat => allGenres.includes(cat)) || genre;
-  const genreData = genreIDs.find(g => g.genre === matchedGenre) || {};
+const cleanBookData = (book, matchedGenres) => {
+  const genreid = genreIDs.find(g => g.genre === matchedGenres[0])?.id ?? null;
 
   return {
     id: crypto.randomUUID(),
-    genreid: genreData.id ?? null,
+    genreid,
     title: book?.title ?? "Unavailable",
     subtitle: book?.subtitle ?? "Unavailable",
     authors: Array.isArray(book?.authors) ? book.authors : [],
     publisher: book?.publisher ?? "Unavailable",
     description: book?.description ?? "Unavailable",
     pageCount: book?.pageCount ?? "Unavailable",
-    categories: matchedGenre ?? "Unavailable",
+    categories: matchedGenres, // now an array of genre strings
     rating: book?.averageRating ?? "Unavailable",
     maturityRating: book?.maturityRating ?? "Unavailable",
     image: book?.imageLinks?.thumbnail ?? null
@@ -63,10 +62,6 @@ const isDuplicateBook = (book, genre) => {
 export const fetchBooksByGenre = async (genre, batchSize) => {
   let booksFetched = 0;
   let startIndex = 0;
-
-  if (!booksByGenre[genre]) {
-    booksByGenre[genre] = [];
-  }
 
   while (booksFetched < batchSize) {
     const remainingBooks = batchSize - booksFetched;
@@ -82,11 +77,17 @@ export const fetchBooksByGenre = async (genre, batchSize) => {
 
       data.items.forEach(item => {
         const info = item.volumeInfo;
-        if (!info) return;
+        if (!info || !info.imageLinks?.thumbnail) return;
 
-        const cleanedBook = cleanBookData(info, genre);
+        const forcedGenre = [genre];
 
-        if (!isDuplicateBook(cleanedBook, genre) && cleanedBook.image) {
+        const cleanedBook = cleanBookData(info, forcedGenre);
+
+        if (!booksByGenre[genre]) {
+          booksByGenre[genre] = [];
+        }
+
+        if (!isDuplicateBook(cleanedBook, genre)) {
           booksByGenre[genre].push(cleanedBook);
           booksFetched++;
         }
@@ -99,5 +100,6 @@ export const fetchBooksByGenre = async (genre, batchSize) => {
     }
   }
 
-  return booksByGenre[genre];
+  return booksByGenre;
 };
+

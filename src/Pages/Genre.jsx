@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import Navbar from '../Components/HomeNavbar';
+import Navbar from '../Components/RegularNavbar';
 import BooksByGenre from '../Components/BooksByGenre';
 import { genreIDs } from '../Api';
 import './Genre.css';

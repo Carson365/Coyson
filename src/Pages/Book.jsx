@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Navbar from '../Components/HomeNavbar';
+import Navbar from '../Components/RegularNavbar';
 import Card from '../Components/Card';
 import { useParams } from "react-router-dom";
 import { TenCards } from '../Components/Card';
@@ -11,8 +11,9 @@ function Book() {
   const [book, setBook] = useState(null);
 
   useEffect(() => {
+    const cleanID = bookID.startsWith(':') ? bookID.slice(1) : bookID;
     console.log('Sending book id' + bookID)
-    const foundBook = GetBookByID(bookID);
+    const foundBook = GetBookByID(cleanID);
     setBook(foundBook);
   }, [bookID]);
 

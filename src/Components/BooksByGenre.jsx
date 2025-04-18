@@ -6,17 +6,22 @@ import '../Pages/Search.css';
 const ITEMS_PER_PAGE = 20;
 
 const BooksByGenre = ({ genreID }) => {
-
   const [filteredBooks, setFilteredBooks] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
-    const genre = genreIDs.find(g => g.id === genreID);
+    const genre = genreIDs.find(g => g.id === genreID); // Find the genre based on genreID
     if (genre) {
-
+      // Get the list of books for the genre (by genre name)
       const genreBooks = booksByGenre[genre.genre] || [];
-      console.log(genreBooks)
-      const sortedBooks = genreBooks.sort((a, b) => a.title.localeCompare(b.title));
+
+      // Filter the books by the genreID to make sure we only display books with matching genreID
+      const filteredByGenreID = genreBooks.filter(book => book.genreid === genreID);
+
+      console.log(filteredByGenreID); // Check the filtered books
+
+      // Sort books alphabetically by title
+      const sortedBooks = filteredByGenreID.sort((a, b) => a.title.localeCompare(b.title));
 
       setFilteredBooks(sortedBooks);
       setCurrentPage(1);

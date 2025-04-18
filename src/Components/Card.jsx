@@ -9,7 +9,7 @@ const Card = ({ book, type = "bookPage" }) => {
     if(type == "addToCart"){
       console.log('added to cart');
     } else if (type == "bookPage"){
-      navigate(`/book/${encodeURIComponent(book.id)}`);
+      navigate(`/book/:${encodeURIComponent(book.id)}`);
     }
   };
 

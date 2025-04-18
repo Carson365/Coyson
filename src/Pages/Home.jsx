@@ -1,5 +1,5 @@
 import './Home.css';
-import Navbar from '../Components/HomeNavbar';
+import Navbar from '../Components/RegularNavbar';
 import BookCarousel from '../Components/Carousels';
 import React, { useEffect, useState } from 'react';
 import { fetchBooksByGenre, booksByGenre, allGenres as GENRES } from '../Api';
@@ -9,6 +9,7 @@ function Home() {
 
   useEffect(() => {
     document.body.style.backgroundColor = '#333';
+
 
     const loadBooksByGenre = async () => {
       for (const genre of GENRES) {
@@ -30,6 +31,7 @@ function Home() {
     };
 
     loadBooksByGenre();
+  
   }, []);
 
   return (

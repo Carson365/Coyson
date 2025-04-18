@@ -1,15 +1,16 @@
 import React from 'react';
 import defaultProfile from '../assets/defaultProfile.png';
 import cartIcon from '../assets/icons8-shopping-cart-48.png';
-import bookIcon from '../assets/icons8-book-50.png';
 import searchIcon from '../assets/search.png';
 
 const Navbar = ({ user = "Guest" }) => {
+
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark position-fixed w-100" style={styles.navbar}>
-      <div className="navbar-brand" style={styles.homeButton}>
-        <h3>3rd & Chester</h3>
+      <div className="navbar-brand d-flex align-items-center" style={styles.homeButton}>
+        <h3 style={{ marginRight: "15px" }}>3rd & Chester</h3>
       </div>
+
       <div className="container-fluid d-flex justify-content-between">
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
@@ -21,12 +22,7 @@ const Navbar = ({ user = "Guest" }) => {
 
               <a href="/#/search" className="d-flex flex-column align-items-center" style={{ ...styles.link, ...styles.transactionsLink }} id="transactions">
                 <span style={styles.transactionsText}>Search</span>
-                <img src={searchIcon} alt="Transactions" style={styles.transactionsIcon} />
-              </a>
-
-              <a href="#" className="d-flex flex-column align-items-center" style={{ ...styles.link, ...styles.transactionsLink }} id="transactions">
-                <span style={styles.transactionsText}>Purchase History</span>
-                <img src={bookIcon} alt="Transactions" style={styles.transactionsIcon} />
+                <img src={searchIcon} alt="Search" style={styles.transactionsIcon} />
               </a>
 
               <a href="#" className="d-flex flex-column align-items-center" style={{ ...styles.link, ...styles.cartLink }} id="cart">
@@ -86,7 +82,6 @@ const styles = {
   },
   welcomeText: {
     fontSize: '14px',
-    fontWeight: 'normal',
     fontWeight: 'bold',
     color: '#fff',
   },
@@ -96,8 +91,9 @@ const styles = {
     color: '#fff',
   },
   cartText: {
-    color: '#fff',
+    color: '#fff', 
     fontSize: '14px',
+    fontWeight: 'bold',
   },
   cartIcon: {
     width: '25px',
@@ -133,16 +129,6 @@ const styles = {
     marginRight: '30px',
     textAlign: 'center',
   },
-  cartText: {
-    color: '#fff', 
-    fontSize: '14px',
-    fontWeight: 'bold',
-  },
-  cartIcon: {
-    width: '25px',
-    height: '25px',
-  },
-  
   homeButton: {
     cursor: 'default',
     fontSize: '24px',

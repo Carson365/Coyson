@@ -1,13 +1,14 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const Navbar = ({ onSearchChange }) => {
+  const navigate = useNavigate();
   return (
     <nav style={styles.navbar}>
       <div class="navbar-brand" style={styles.left}>
-      <Link to="/" style={styles.brand}>
-        <h3 style={styles.brandText}>Back</h3>
-      </Link>
+      <button onClick={() => navigate(-1)} className="btn btn-outline-light btn-sm">
+          Back
+      </button>
       </div>
 
       <div style={styles.center}>
