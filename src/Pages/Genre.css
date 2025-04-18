@@ -1,0 +1,84 @@
+#body {
+    margin-top: 5px;
+    padding-top: 40px;
+  }
+  
+  .search-results-container {
+    padding: 2rem;
+  }
+  
+  .results-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 3px;
+    padding-left: 30px; 
+    color: #FFFF;
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7); 
+    padding-bottom: 10px;
+  }
+  
+  .book-grid {
+    display: grid;
+    gap: 2rem;
+    justify-items: center;
+  }
+  
+  .book-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  
+  @media (max-width: 1024px) {
+    .book-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media (max-width: 600px) {
+    .book-grid {
+      grid-template-columns: repeat(1, 1fr);
+    }
+  }
+  
+  .book-card-wrapper {
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  .pagination-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 2rem;
+    gap: 1rem;
+  }
+  
+  .pagination-buttons {
+    display: flex;
+    gap: 1.5rem;
+  }
+  
+  .pagination-buttons button {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #FFFF;
+    cursor: pointer;
+    padding: 0.25rem 1rem;
+  }
+  
+  .pagination-buttons button:disabled {
+    opacity: 0.4;
+    cursor: default;
+  }
+  
+  .pagination-page {
+    font-size: 1rem;
+    color: #FFF;
+    font-weight: 500;
+  }
+  
+  .pagination-buttons button:first-child {
+    margin-right: auto;
+    margin-left: -1rem;
+  }  

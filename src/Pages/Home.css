@@ -14,6 +14,11 @@
   z-index: auto;
 }
 
+.carousel-inner,
+.carousel-item {
+  overflow: visible !important;
+}
+
 .book-card-wrapper {
   display: flex;
   justify-content: center;
@@ -22,11 +27,34 @@
   min-width: 225px;
 }
 
-#carTitle {
+.carousel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  padding: 0 1rem;
+}
+
+#carTitle,
+.carousel-title {
   color: white;
   font-weight: bold;
   text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7);
-  margin-left: 30px;
+  margin: 0;
+  font-size: 2rem;
+  padding-left: 1rem !important;
+}
+
+.see-all-link {
+  font-size: 1rem;
+  color: #bbb;
+  text-decoration: none;
+  transition: color 0.2s ease;
+  margin-right: 10px;
+}
+
+.see-all-link:hover {
+  color: #fff;
 }
 
 .carousel-control-prev,
@@ -46,7 +74,6 @@
   bottom: -40px;
 }
 
-/* Responsive adjustments */
 @media (max-width: 1200px) {
   #left-control { left: -100px; }
   #right-control { right: -100px; }
@@ -73,10 +100,4 @@
 
 h3 {
   padding-left: 0 !important;
-}
-
-.carousel,
-.carousel-inner,
-.carousel-item {
-  overflow: visible !important;
 }

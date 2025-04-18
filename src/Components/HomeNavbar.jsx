@@ -19,7 +19,7 @@ const Navbar = ({ user = "Guest" }) => {
           <ul className="navbar-nav d-flex" id="list" style={styles.navItems}>
             <li className="nav-item active d-flex" style={styles.navItem}>
 
-              <a href="/#/Search" className="d-flex flex-column align-items-center" style={{ ...styles.link, ...styles.transactionsLink }} id="transactions">
+              <a href="/#/search" className="d-flex flex-column align-items-center" style={{ ...styles.link, ...styles.transactionsLink }} id="transactions">
                 <span style={styles.transactionsText}>Search</span>
                 <img src={searchIcon} alt="Transactions" style={styles.transactionsIcon} />
               </a>

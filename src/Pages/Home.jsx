@@ -26,6 +26,7 @@ function Home() {
           prev.includes(genre) ? prev : [...prev, genre]
         );
       }
+      console.log(booksByGenre)
     };
 
     loadBooksByGenre();

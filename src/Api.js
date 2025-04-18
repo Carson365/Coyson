@@ -13,6 +13,19 @@ export const allGenres = [
   "Novel"
 ];
 
+export const genreIDs = [
+  { id: 101, genre: "Fiction" },
+  { id: 102, genre: "Mystery" },
+  { id: 103, genre: "Biography" },
+  { id: 104, genre: "Fantasy" },
+  { id: 105, genre: "AutoBiography" },
+  { id: 106, genre: "Nonfiction" },
+  { id: 107, genre: "Thriller" },
+  { id: 108, genre: "Science Fiction" },
+  { id: 109, genre: "Poetry" },
+  { id: 110, genre: "Novel" }
+];
+
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 export const fetchAllGenres = async () => {
@@ -20,28 +33,31 @@ export const fetchAllGenres = async () => {
     await fetchBooksByGenre(genre, 64);
     await delay(200);
   }
-  console.log(booksByGenre)
+  console.log(booksByGenre);
 };
 
+const cleanBookData = (book, genre) => {
+  const matchedGenre = book.categories?.find(cat => allGenres.includes(cat)) || genre;
+  const genreData = genreIDs.find(g => g.genre === matchedGenre) || {};
 
-const cleanBookData = (book, category) => {
   return {
     id: crypto.randomUUID(),
-    title: book?.title || "Unavailable",
-    subtitle: book?.subtitle || "Unavailable",
+    genreid: genreData.id ?? null,
+    title: book?.title ?? "Unavailable",
+    subtitle: book?.subtitle ?? "Unavailable",
     authors: Array.isArray(book?.authors) ? book.authors : [],
-    publisher: book?.publisher || "Unavailable",
-    description: book?.description || "Unavailable",
-    pageCount: book?.pageCount || "Unavailable",
-    categories: category || "Unavailable", 
-    rating: book?.averageRating || "Unavailable",
-    maturityRating: book?.maturityRating || "Unavailable",
-    image: book?.imageLinks?.thumbnail || null,
+    publisher: book?.publisher ?? "Unavailable",
+    description: book?.description ?? "Unavailable",
+    pageCount: book?.pageCount ?? "Unavailable",
+    categories: matchedGenre ?? "Unavailable",
+    rating: book?.averageRating ?? "Unavailable",
+    maturityRating: book?.maturityRating ?? "Unavailable",
+    image: book?.imageLinks?.thumbnail ?? null
   };
 };
 
 const isDuplicateBook = (book, genre) => {
-  return booksByGenre[genre].some(existingBook => existingBook.title === book.title);
+  return booksByGenre[genre]?.some(existingBook => existingBook.title === book.title) ?? false;
 };
 
 export const fetchBooksByGenre = async (genre, batchSize) => {
@@ -62,13 +78,13 @@ export const fetchBooksByGenre = async (genre, batchSize) => {
       );
 
       const data = await response.json();
-
       if (!data.items || data.items.length === 0) break;
 
       data.items.forEach(item => {
-        if (!item.volumeInfo) return;
+        const info = item.volumeInfo;
+        if (!info) return;
 
-        const cleanedBook = cleanBookData(item.volumeInfo, genre);
+        const cleanedBook = cleanBookData(info, genre);
 
         if (!isDuplicateBook(cleanedBook, genre) && cleanedBook.image) {
           booksByGenre[genre].push(cleanedBook);
@@ -82,8 +98,6 @@ export const fetchBooksByGenre = async (genre, batchSize) => {
       break;
     }
   }
-
-  console.log(`Loaded ${genre}:`);
 
   return booksByGenre[genre];
 };
