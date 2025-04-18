@@ -48,7 +48,7 @@ const cleanBookData = (book, matchedGenres) => {
     publisher: book?.publisher ?? "Unavailable",
     description: book?.description ?? "Unavailable",
     pageCount: book?.pageCount ?? "Unavailable",
-    categories: matchedGenres, // now an array of genre strings
+    categories: matchedGenres, 
     rating: book?.averageRating ?? "Unavailable",
     maturityRating: book?.maturityRating ?? "Unavailable",
     image: book?.imageLinks?.thumbnail ?? null

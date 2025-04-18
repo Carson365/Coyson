@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Navbar from '../Components/RegularNavbar';
+import Navbar from '../Components/Navbar';
 import Card from '../Components/Card';
 import { useParams } from "react-router-dom";
 import { TenCards } from '../Components/Card';

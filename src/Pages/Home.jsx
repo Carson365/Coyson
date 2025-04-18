@@ -1,5 +1,5 @@
 import './Home.css';
-import Navbar from '../Components/RegularNavbar';
+import Navbar from '../Components/Navbar';
 import BookCarousel from '../Components/Carousels';
 import React, { useEffect, useState } from 'react';
 import { fetchBooksByGenre, booksByGenre, allGenres as GENRES } from '../Api';
@@ -27,7 +27,6 @@ function Home() {
           prev.includes(genre) ? prev : [...prev, genre]
         );
       }
-      console.log(booksByGenre)
     };
 
     loadBooksByGenre();

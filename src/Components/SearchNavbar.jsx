@@ -5,7 +5,7 @@ const Navbar = ({ onSearchChange }) => {
   const navigate = useNavigate();
   return (
     <nav style={styles.navbar}>
-      <div class="navbar-brand" style={styles.left}>
+      <div className="navbar-brand" style={styles.left}>
       <button onClick={() => navigate(-1)} className="btn btn-outline-light btn-sm">
           Back
       </button>
