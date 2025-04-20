@@ -1,3 +1,5 @@
+// Add Price
+
 export let booksByGenre = {};
 
 export const allGenres = [
@@ -100,6 +102,7 @@ export const fetchBooksByGenre = async (genre, batchSize) => {
     }
   }
 
+  console.log(booksByGenre)
   return booksByGenre;
 };
 

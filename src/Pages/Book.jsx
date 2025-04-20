@@ -12,7 +12,6 @@ function Book() {
 
   useEffect(() => {
     const cleanID = bookID.startsWith(':') ? bookID.slice(1) : bookID;
-    console.log('Sending book id' + bookID)
     const foundBook = GetBookByID(cleanID);
     setBook(foundBook);
   }, [bookID]);

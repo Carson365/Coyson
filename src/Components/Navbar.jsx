@@ -3,9 +3,10 @@ import defaultProfile from '../assets/defaultProfile.png';
 import cartIcon from '../assets/icons8-shopping-cart-48.png';
 import searchIcon from '../assets/search.png';
 import { Link } from 'react-router-dom';
+import { useUser } from '../UserContext';
 
-const Navbar = ({ user = "Guest" }) => {
-
+const Navbar = () => {
+  const { user } = useUser();
   return (
     <nav className="navbar navbar-dark bg-dark position-fixed w-100" style={styles.navbar}>
       <div className="container-fluid d-flex justify-content-between align-items-center">
@@ -26,7 +27,7 @@ const Navbar = ({ user = "Guest" }) => {
             </li>
 
             <li className="nav-item mx-3 text-center">
-              <a href="#" className="nav-link d-flex flex-column align-items-center" style={styles.link}>
+              <a href="/#/cart" className="nav-link d-flex flex-column align-items-center" style={styles.link}>
                 <span style={styles.cartText}>View Cart</span>
                 <img src={cartIcon} alt="Cart" style={styles.cartIcon} />
               </a>
@@ -38,7 +39,7 @@ const Navbar = ({ user = "Guest" }) => {
               {user !== 'Guest' ? (
                 <>
                   <span style={styles.welcomeText}>Welcome,</span>
-                  <span style={styles.userName}>{user}</span>
+                  <span style={styles.userName}>{user ? `${user.name}` : "Guest"}</span>
                 </>
               ) : (
                 <>
