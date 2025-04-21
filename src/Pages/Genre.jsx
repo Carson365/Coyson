@@ -11,7 +11,6 @@ function Genre() {
   const cleanGenre = genre.startsWith(':') ? genre.slice(1) : genre;
   const decodedGenre = decodeURIComponent(cleanGenre);
 
-  console.log(decodedGenre);
   return (
     <div>
       <Navbar />

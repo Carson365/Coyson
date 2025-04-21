@@ -12,7 +12,7 @@ const Navbar = () => {
       <div className="container-fluid d-flex justify-content-between align-items-center">
 
         <div className="navbar-brand" style={styles.homeButton}>
-            <Link to="/#/" style={{ textDecoration: 'none', color: 'inherit' }}>
+            <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
             <h3 style={{ margin: 0 }}>3rd & Chester</h3>
             </Link>
         </div>

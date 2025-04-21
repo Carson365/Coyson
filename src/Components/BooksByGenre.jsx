@@ -17,8 +17,6 @@ const BooksByGenre = ({ genre }) => {
 
       const filteredByGenreID = genreBooks.filter(book => book.genreID === genreID);
 
-      console.log(filteredByGenreID);
-
       const sortedBooks = filteredByGenreID.sort((a, b) => a.title.localeCompare(b.title));
 
       setFilteredBooks(sortedBooks);

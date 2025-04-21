@@ -1,13 +1,20 @@
 import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { booksByGenre } from "../Api";
+import { useUser } from '../UserContext';
 
 const Card = ({ book, type = "bookPage" }) => {
   const navigate = useNavigate();
+  const { user } = useUser();
+   const { setUser } = useUser();
 
   const handleCardClick = () => {
     if(type == "addToCart"){
-      console.log('added to cart');
+      const bookExists = user.books.some(b => b.id === book.bookID);
+
+      if (!bookExists) {
+        user.books.push(book);
+      }    
     } else if (type == "bookPage"){
       navigate(`/book/:${encodeURIComponent(book.bookID)}`);
     }

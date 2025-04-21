@@ -5,6 +5,8 @@ import React, { useEffect, useState } from 'react';
 import { fetchBooksByGenre, booksByGenre, genreIDs as GENRES, GetBookByGenre } from '../Api';
 import { useUser } from '../UserContext';
 
+let count = 0;
+
 function Home() {
   const [loadedGenres, setLoadedGenres] = useState([]);
   const { setUser } = useUser();
@@ -40,12 +42,17 @@ function Home() {
         name: "Coy",
         email: "coy@example.com",
         role: "member",
-        books: [booksByGenre['Fiction'][0], booksByGenre['Mystery'][0], booksByGenre['Novel'][0], booksByGenre['Biography'][0]],
+        books: [],
       };
       
       setUser(userData);
     };
-    //handleLogin();
+
+    if(count < 1){
+      count++;
+      console.log(count);
+      handleLogin();
+    }
   }, []);
 
   return (

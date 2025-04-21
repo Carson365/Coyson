@@ -13,7 +13,11 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("BookstoreApiClean")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
+<<<<<<< Updated upstream
 [assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+368acb1ce41e6f5497af55c9dab5d5248e546242")]
+=======
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+61ae8823032a7ce76f3d8e706790729a35273bb5")]
+>>>>>>> Stashed changes
 [assembly: System.Reflection.AssemblyProductAttribute("BookstoreApiClean")]
 [assembly: System.Reflection.AssemblyTitleAttribute("BookstoreApiClean")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -38,7 +38,7 @@ function Book() {
         <div className="book-details-container">
       <h2 className="book-title">{book?.title || "Unavailable"}</h2>
       <h4 className="book-author" style={{ fontStyle: 'italic' }}>
-        {book?.authors?.[0] || 'Unknown Author'}
+        {book?.authors || 'Unavailable'}
       </h4>
       <p className="book-genre">
         <strong>Genre:</strong> {book?.categories || 'Unavailable'}
