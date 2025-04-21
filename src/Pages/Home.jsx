@@ -2,7 +2,7 @@ import './Home.css';
 import Navbar from '../Components/Navbar';
 import BookCarousel from '../Components/Carousels';
 import React, { useEffect, useState } from 'react';
-import { fetchBooksByGenre, booksByGenre, allGenres as GENRES } from '../Api';
+import { fetchBooksByGenre, booksByGenre, genreIDs as GENRES, GetBookByGenre } from '../Api';
 import { useUser } from '../UserContext';
 
 function Home() {
@@ -14,21 +14,23 @@ function Home() {
 
     const loadBooksByGenre = async () => {
       for (const genre of GENRES) {
-        const alreadyLoaded = booksByGenre[genre]?.length > 0;
+        const alreadyLoaded = booksByGenre[genre.id]?.length > 0;
+    
         if (!alreadyLoaded) {
           try {
-            await fetchBooksByGenre(genre, 64);
+            await GetBookByGenre(genre.id); 
           } catch (err) {
-            console.error(`Error loading ${genre}:`, err);
+            console.error(`Error loading ${genre.genre}:`, err);
             continue;
           }
         }
-
+    
         setLoadedGenres(prev =>
-          prev.includes(genre) ? prev : [...prev, genre]
+          prev.includes(genre.id) ? prev : [...prev, genre.id]
         );
       }
     };
+    
 
     loadBooksByGenre();
 
@@ -43,8 +45,7 @@ function Home() {
       
       setUser(userData);
     };
-    handleLogin();
-    
+    //handleLogin();
   }, []);
 
   return (
@@ -52,8 +53,8 @@ function Home() {
       <Navbar />
       <div id="body">
         {GENRES.map(genre =>
-          loadedGenres.includes(genre) ? (
-            <BookCarousel key={genre} genre={genre} />
+          loadedGenres.includes(genre.id) ? (
+            <BookCarousel key={genre.id} genre={genre.id} />
           ) : null
         )}
       </div>

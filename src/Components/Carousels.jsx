@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { booksByGenre } from '../Api';
+import { booksByGenre, genreIDs } from '../Api';
 import Card from './Card';
 
 const BookCarousel = ({ genre }) => {
@@ -54,10 +54,17 @@ const BookCarousel = ({ genre }) => {
     return () => carouselEl.removeEventListener('slide.bs.carousel', handleSlide);
   }, []);
 
+  const getGenreNameById = (id) => {
+    const match = genreIDs.find(genre => genre.id === id);
+    return match ? match.genre : "Unknown Genre";
+  };
+  
+  const genreName = getGenreNameById(genre);
+
   return (
     <div className="container mt-5">
       <div className="carousel-header d-flex justify-content-between align-items-center mb-2">
-        <h3 className="carousel-title" id="carTitle">{genre}</h3>
+        <h3 className="carousel-title" id="carTitle">{genreName}</h3>
         <a href={`/#/genre/:${encodeURIComponent(genre)}`} className="see-all-link">
           See All
         </a>

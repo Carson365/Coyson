@@ -3,7 +3,7 @@ import Navbar from '../Components/Navbar';
 import Card from '../Components/Card';
 import { useParams } from "react-router-dom";
 import { TenCards } from '../Components/Card';
-import { GetBookByID } from '../BookData';
+import { GetBookByID } from '../BookData.js';
 import './Book.css'
 
 function Book() {
@@ -32,7 +32,7 @@ function Book() {
         <div style={{ width: '33.33%', overflowY: 'auto' }}>
           <div style={{ height: '100%', padding: '1rem' }}>
             <h3 id="CardTitle">More {book.categories}</h3>
-            <TenCards genre={book.categories} />
+            <TenCards genre={book.genreID} />
           </div>
         </div>
         <div className="book-details-container">
@@ -60,7 +60,7 @@ function Book() {
         <strong>Maturity Rating:</strong> {book?.maturityRating || 'Unavailable'}
       </p>
     </div>
-    <div class="selected-book">
+    <div className="selected-book">
       <Card book={book} type = {"addToCart"}/>
     </div>
       </div>

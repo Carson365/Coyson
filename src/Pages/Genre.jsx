@@ -11,18 +11,13 @@ function Genre() {
   const cleanGenre = genre.startsWith(':') ? genre.slice(1) : genre;
   const decodedGenre = decodeURIComponent(cleanGenre);
 
-  const matchedGenre = genreIDs.find(
-    (g) => g.genre.toLowerCase() === decodedGenre.toLowerCase()
-  );
-
-  const genreID = matchedGenre?.id;
-
+  console.log(decodedGenre);
   return (
     <div>
       <Navbar />
       <div id="body">
-        {genreID ? (
-          <BooksByGenre genreID={genreID} />
+        {decodedGenre ? (
+          <BooksByGenre genre={decodedGenre} />
         ) : (
           <h2 className="results-title">Genre not found: {decodedGenre}</h2>
         )}

@@ -5,16 +5,19 @@ import '../Pages/Search.css';
 
 const ITEMS_PER_PAGE = 20;
 
-const BooksByGenre = ({ genreID }) => {
+const BooksByGenre = ({ genre }) => {
   const [filteredBooks, setFilteredBooks] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
-    const genre = genreIDs.find(g => g.id === genreID); 
     if (genre) {
-      const genreBooks = booksByGenre[genre.genre] || [];
+      const genreID = parseInt(genre);
 
-      const filteredByGenreID = genreBooks.filter(book => book.genreid === genreID);
+      const genreBooks = booksByGenre[genreID] || [];
+
+      const filteredByGenreID = genreBooks.filter(book => book.genreID === genreID);
+
+      console.log(filteredByGenreID);
 
       const sortedBooks = filteredByGenreID.sort((a, b) => a.title.localeCompare(b.title));
 
@@ -23,7 +26,7 @@ const BooksByGenre = ({ genreID }) => {
     } else {
       setFilteredBooks([]);
     }
-  }, [genreID]);
+  }, [genre]);
 
   const totalPages = Math.ceil(filteredBooks.length / ITEMS_PER_PAGE);
   const currentBooks = filteredBooks.slice(
@@ -39,7 +42,8 @@ const BooksByGenre = ({ genreID }) => {
     setCurrentPage((prev) => Math.min(prev + 1, totalPages));
   };
 
-  const genreName = genreIDs.find(g => g.id === parseInt(genreID))?.genre || "Genre not found";
+  const genreID = parseInt(genre);
+  const genreName = genreIDs.find(g => g.id === genreID)?.genre || "Genre not found";
 
   return (
     <div id="body" className="search-results-container">

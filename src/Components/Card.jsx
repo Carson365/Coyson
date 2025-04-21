@@ -9,7 +9,7 @@ const Card = ({ book, type = "bookPage" }) => {
     if(type == "addToCart"){
       console.log('added to cart');
     } else if (type == "bookPage"){
-      navigate(`/book/:${encodeURIComponent(book.id)}`);
+      navigate(`/book/:${encodeURIComponent(book.bookID)}`);
     }
   };
 
@@ -59,7 +59,7 @@ const Card = ({ book, type = "bookPage" }) => {
 
   return (
     <div
-      className={`card card-${book.id}`}
+      className={`card card-${book.bookID}`}
       style={cardStyle}
       onClick={handleCardClick}
       onMouseEnter={(e) => {
@@ -85,9 +85,7 @@ const Card = ({ book, type = "bookPage" }) => {
         <h5 className="card-title">{book.title}</h5>
         <p className="card-text">
           <strong>By: </strong>
-          {(book.authors && book.authors.length > 0)
-            ? book.authors[0]
-            : "Not available"}
+          {book.authors}
           <br />
           <strong>Genre: </strong>{book.categories}
         </p>
@@ -101,7 +99,7 @@ export function TenCards({ genre }) {
 
   useEffect(() => {
     if (!genre || !booksByGenre[genre]) return;
-
+    
     const allBooks = booksByGenre[genre];
     const shuffled = [...allBooks].sort(() => 0.5 - Math.random());
     const selected = shuffled.slice(0, 20);
@@ -113,7 +111,7 @@ export function TenCards({ genre }) {
     <>
       <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "1rem", padding: "0 1rem", marginTop: "1rem", position: "relative" }}>
         {randomCards.map((book) => (
-          <Card book={book} key={book.id} />
+          <Card book={book} key={book.bookID} />
         ))}
       </div>
     </>

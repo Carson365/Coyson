@@ -1,11 +1,10 @@
 import { booksByGenre } from "./Api";
 
 export function GetBookByID(bookID) {
-  for (const [genre, books] of Object.entries(booksByGenre)) {
-    for (const book of books) {
-      if (book.id === bookID) {
-        return book;
-      }
+  for (const books of Object.values(booksByGenre)) {
+    const book = books.find(book => book.bookID == bookID);
+    if (book) {
+      return book;
     }
   }
   return null;

@@ -23,6 +23,22 @@ public class BookController : ControllerBase
         return book is null ? NotFound() : book;
     }
 
+    [HttpGet("genre/{genreId}")]
+    public async Task<ActionResult<IEnumerable<Book>>> GetBooksByGenre(int genreId)
+    {
+        var books = await _context.Books
+                              .Where(b => b.GenreID == genreId)
+                              .ToListAsync();
+
+        if (books == null || books.Count == 0)
+        {
+        return NotFound($"No books found with GenreID: {genreId}");
+        }
+
+        return Ok(books);
+    }
+
+
     [HttpPost]
     public async Task<ActionResult<Book>> Create(Book book)
     {
