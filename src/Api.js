@@ -82,6 +82,21 @@ export const GetBookByGenre = async (genreID) => {
   });
 };
 
+export const AuthenticateUser = (token) => {
+
+  const user = {
+    FirstName: "",
+    LastName: "",
+    Email: "",
+    DateOfAccountCreation: "",
+    Points: 0,
+  }
+
+  // fetch
+  
+  return user;
+}
+
 /*  All Commented Below is for fetching books from Google API
 
 const getRandomPrice = () => {

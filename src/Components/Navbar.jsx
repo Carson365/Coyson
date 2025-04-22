@@ -34,7 +34,7 @@ const Navbar = () => {
             </li>
           </ul>
 
-          <a href="#" className="d-flex text-decoration-none align-items-center ms-3">
+          <a href="/#/login" className="d-flex text-decoration-none align-items-center ms-3">
             <div style={styles.nameContainer}>
               {user !== 'Guest' ? (
                 <>

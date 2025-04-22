@@ -5,12 +5,15 @@ import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { UserProvider } from './UserContext';
+import { AuthProvider } from './AuthenticateContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <UserProvider>
-    <App />
-  </UserProvider>
+  <AuthProvider>
+    <UserProvider>
+      <App />
+    </UserProvider>
+  </AuthProvider>
 );
 
 reportWebVitals();
