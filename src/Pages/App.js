@@ -4,6 +4,7 @@ import Search from '../Pages/Search.jsx';
 import Book from '../Pages/Book.jsx';
 import Genre from '../Pages/Genre.jsx';
 import Cart from '../Pages/Cart.jsx';
+//import Login from '../Pages/Login.jsx';
 import ProtectedRoute from '../ProtectedRoute.js';
 
 function App() {
@@ -14,7 +15,7 @@ function App() {
         <Route path="/search" element={<Search />}/>
         <Route path="/book/:bookID" element={<Book />} />
         <Route path="/genre/:genre" element={<Genre />} />
-        <Route path="/login" element={<Search />} />
+        <Route path="/login" element={<Home />} />
         <Route path="/cart" element={<ProtectedRoute> <Cart /> </ProtectedRoute>} />
       </Routes>
     </Router>

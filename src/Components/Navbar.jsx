@@ -69,7 +69,7 @@ const styles = {
     borderRadius: '50%',
     objectFit: 'cover',
     clipPath: 'circle(38% at 50% 50%)',
-    marginLeft: '10px',
+    marginLeft: '2px',
   },
   nameContainer: {
     display: 'flex',
