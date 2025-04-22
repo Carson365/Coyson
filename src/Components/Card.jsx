@@ -10,11 +10,13 @@ const Card = ({ book, type = "bookPage" }) => {
 
   const handleCardClick = () => {
     if(type == "addToCart"){
-      const bookExists = user.books.some(b => b.id === book.bookID);
+      const bookExists = user.books.some(b => b.bookID === book.bookID);
 
       if (!bookExists) {
         user.books.push(book);
-      }    
+      } else {
+        alert("Book already in cart");
+      }
     } else if (type == "bookPage"){
       navigate(`/book/:${encodeURIComponent(book.bookID)}`);
     }

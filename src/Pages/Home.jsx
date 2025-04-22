@@ -2,7 +2,7 @@ import './Home.css';
 import Navbar from '../Components/Navbar';
 import BookCarousel from '../Components/Carousels';
 import React, { useEffect, useState } from 'react';
-import { fetchBooksByGenre, booksByGenre, genreIDs as GENRES, GetBookByGenre } from '../Api';
+import { booksByGenre, genreIDs as GENRES, GetBookByGenre } from '../Api';
 import { useUser } from '../UserContext';
 
 let count = 0;
@@ -36,7 +36,6 @@ function Home() {
 
     loadBooksByGenre();
 
-    // Temporary
     const handleLogin = async () => {
       const userData = {
         name: "Coy",
@@ -46,7 +45,9 @@ function Home() {
       };
       
       setUser(userData);
+      
     };
+    
 
     if(count < 1){
       count++;

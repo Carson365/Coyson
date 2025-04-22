@@ -24,7 +24,7 @@ public class CartController : ControllerBase
             {
                 Email = username,
                 Password = password,
-                FirstName = "", // Fill as needed
+                FirstName = "",
                 LastName = ""
             };
             _context.Customers.Add(user);
@@ -36,15 +36,18 @@ public class CartController : ControllerBase
             .Where(t => t.CustID == user.CustID && !t.hasCheckedOut)
             .FirstOrDefaultAsync();
 
-        return Ok(new
-        {
-            userId = user.CustID,
-            cartItems = cart?.Items.Select(i => new
+        var cartItems = cart?.Items
+            .Select(i => (object)new
             {
                 i.BookID,
                 i.Quantity,
                 i.PriceAtPurchase
-            }) ?? new List<object>()
+            }) ?? new List<object>();
+
+        return Ok(new
+        {
+            userId = user.CustID,
+            cartItems
         });
     }
 
