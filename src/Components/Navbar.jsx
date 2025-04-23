@@ -60,8 +60,10 @@ const Navbar = () => {
                 </>
               )}
             </div>
-            {user?.id && (
-              <img src={user.profileImg || defaultProfile} alt="Profile" style={styles.profileImage} />
+            {user?.id ? (
+              <img src={user.profileImg} alt="Profile" style={styles.profileImage} />
+            ) : (
+              <img src={defaultProfile} alt="Profile" style={styles.profileImage} />
             )}
           </div>
         </div>
