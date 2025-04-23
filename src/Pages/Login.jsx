@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { login } from '../AuthenticateHelper'; 
 import { useNavigate } from 'react-router-dom';
-import { AuthenticateUser } from '../Api.js';
+import { AuthenticateUser, FetchCart } from "../Api";
 import { useUser } from '../UserContext.js';
 import { auth, googleProvider, microsoftProvider } from '../FireBase.js'; 
 import { signInWithPopup } from 'firebase/auth';
+
 import './Login.css';
 
 function Login() {
@@ -16,69 +17,86 @@ function Login() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
+  
     try {
-      const user = await login(email, password);
-
-      const authenticatedUser = AuthenticateUser(user.user.accessToken);
-
-      switch (authenticatedUser) {
-        case false:
-          //createUser();
-          console.log("creating user")
-          break;
-        default:
-          setUser(authenticatedUser);
+      const user = await login(email, password); // your hash+auth function
+      const token = user.uid;
+  
+      const authenticatedUser = await AuthenticateUser({
+        token,
+        name: user.user.displayName ?? "User",
+        email: user.user.email ?? "",
+        profileImg: user.user.photoURL ?? ""
+      });
+  
+      if (authenticatedUser) {
+        setUser(authenticatedUser);
+        const cart = await FetchCart(authenticatedUser.id);
+        navigate(-1);
+      } else {
+        setError("Login failed to authenticate with server.");
       }
-      
-      navigate(-1);
     } catch (error) {
-      setError('Login failed. Please check your email and password.');
-      console.error('Login failed:', error.message);
+      setError("Login failed. Please check your email and password.");
+      console.error("Login failed:", error.message);
     }
   };
+  
 
   const handleGoogleLogin = async () => {
     try {
       const result = await signInWithPopup(auth, googleProvider);
+      console.log(result);
       const user = result.user;
-
-      const authenticatedUser = AuthenticateUser(user.accessToken);
-
-      switch (authenticatedUser) {
-        case false:
-          //createUser();
-          console.log("creating user")
-          break;
-        default:
-          setUser(authenticatedUser);
+      const token = user.uid;
+  
+      const authenticatedUser = await AuthenticateUser({
+        token,
+        name: user.displayName ?? "User",
+        email: user.email ?? "",
+        profileImg: user.photoURL ?? ""
+      });
+  
+      if (authenticatedUser) {
+        setUser(authenticatedUser);
+        const cart = await FetchCart(authenticatedUser.id);
+        navigate(-1);
+      } else {
+        setError("Google login failed to authenticate with server.");
       }
     } catch (error) {
-      console.error('Google login failed:', error.message);
-      setError('Google login failed. Please try again.');
+      console.error("Google login failed:", error.message);
+      setError("Google login failed. Please try again.");
     }
   };
   
-const handleMicrosoftLogin = async () => {
-  try {
-    const result = await signInWithPopup(auth, microsoftProvider);
-    const user = result.user;
-    const token = await user.getIdToken();
-    
-    const authenticatedUser = AuthenticateUser(token);
-
-      switch (authenticatedUser) {
-        case false:
-          //createUser();
-          console.log("creating user")
-          break;
-        default:
-          setUser(authenticatedUser);
+  
+  const handleMicrosoftLogin = async () => {
+    try {
+      const result = await signInWithPopup(auth, microsoftProvider);
+      const user = result.user;
+      const token = user.uid;
+  
+      const authenticatedUser = await AuthenticateUser({
+        token,
+        name: user.displayName ?? "User",
+        email: user.email ?? "",
+        profileImg: user.photoURL ?? ""
+      });
+  
+      if (authenticatedUser) {
+        setUser(authenticatedUser);
+        const cart = await FetchCart(authenticatedUser.id);
+        navigate(-1);
+      } else {
+        setError("Microsoft login failed to authenticate with server.");
       }
-  } catch (error) {
-    console.error('Microsoft login failed:', error.message);
-  }
-};
+    } catch (error) {
+      console.error("Microsoft login failed:", error.message);
+      setError("Microsoft login failed. Please try again.");
+    }
+  };
+  
 
   useEffect(() => {
     document.body.classList.add('login-page-body');
@@ -94,10 +112,10 @@ const handleMicrosoftLogin = async () => {
           <div className="social-login">
             <ul>
               <li className="google">
-                <a href="#" onClick={handleGoogleLogin}>Google</a>
+                <a onClick={handleGoogleLogin}>Google</a>
               </li>
               <li className="fb">
-                <a href="#" onClick={handleMicrosoftLogin}>Microsoft</a>
+                <a onClick={handleMicrosoftLogin}>Microsoft</a>
               </li>
             </ul>
           </div>

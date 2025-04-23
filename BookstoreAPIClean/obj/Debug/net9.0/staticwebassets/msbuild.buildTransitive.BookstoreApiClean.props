@@ -1,3 +1,3 @@
 ﻿<Project>
-  <Import Project="../buildMultiTargeting/BookstoreApiClean.props" />
+  <Import Project="..\buildMultiTargeting\BookstoreApiClean.props" />
 </Project>

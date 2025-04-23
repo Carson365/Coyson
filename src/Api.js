@@ -83,53 +83,76 @@ export const GetBookByGenre = async (genreID) => {
   });
 };
 
-export const AuthenticateUser = (token) => {
+export const AuthenticateUser = async ({ token, name, email, profileImg }) => {
+  try {
+    const response = await fetch("http://localhost:5000/api/user/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ token, name, email, profileImg })
+    });
 
-  const userData = {
-    id: token,
-    name: "Coy",
-    email: "",
-    role: "",
-    profileImg: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSN-p2XOT4ks6ZjiZuhhZWUMcvGvvb-woRgrw&s",
-    books: [],
-    points: 370,
-  };
+    if (!response.ok) {
+      throw new Error("User authentication failed.");
+    }
 
-  // Fetch user by token, if user found populate userData else leave empty
-
-  if(userData.id == null){
+    const user = await response.json();
+    return {
+      id: user.id,
+      token: user.token,
+      name: user.name,
+      email: user.email,
+      profileImg: user.profileImg,
+      role: user.role,
+      points: user.points,
+      dateCreated: user.created,
+    };
+  } catch (error) {
+    console.error("Error authenticating user:", error);
     return false;
-  } else {
-    return userData;
   }
 };
 
-// Create new user in the database
-export async function CreateUser(){
-  const user = {
-      id: "",
-      email: "",
-      profileImg: "",
-      books: [],
-      points: 0,
-  };
-  
-  /* Create a new user 
-  const response = await fetch("http://localhost:5000/api/customer", {
-      method: "POST",
-      headers: {
-      "Content-Type": "application/json",
-      },
-      body: JSON.stringify(user),
-  });
-  
-  if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
+
+
+export const FetchCart = async (userId) => {
+  try {
+    const response = await fetch(`http://localhost:5000/api/cart/fetchcart?userId=${userId}`);
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch cart");
+    }
+
+    const data = await response.json();
+    return data.cartItems ?? [];
+  } catch (error) {
+    console.error("Cart fetch error:", error);
+    return [];
   }
-  
-  const data = await response.json();
-  */
-}
+};
+
+
+
+export const AddToCart = async (userId, bookId, price) => {
+  try {
+    const response = await fetch(`http://localhost:5000/api/cart/addtocart?userId=${userId}&bookId=${bookId}&price=${price}`, {
+      method: "POST"
+    });
+
+    if (!response.ok) throw new Error("Add to cart failed.");
+
+    const updatedCart = await FetchCart(userId); // Pull updated cart
+    return updatedCart;
+  } catch (error) {
+    console.error("Error adding to cart:", error);
+    return null;
+  }
+};
+
+
+
+
 
 // Take the price, if the user applied their points, and add the transaction to the database. Then reset their points if used and reset their active cart.
 export async function CompleteTransaction(applyPoints){
@@ -145,6 +168,68 @@ export async function CompleteTransaction(applyPoints){
 
   // Reset books in cart and points
 }
+
+
+
+export const Checkout = async (userId) => {
+  try {
+    const response = await fetch(`http://localhost:5000/api/cart/checkout?userId=${userId}`, {
+      method: "POST"
+    });
+
+    if (!response.ok) throw new Error("Checkout failed.");
+    return true;
+  } catch (error) {
+    console.error("Checkout error:", error);
+    return false;
+  }
+};
+
+export const ClearCart = (setUser) => {
+  setUser(prev => ({ ...prev, cart: [] }));
+};
+
+
+
+
+
+export const UpdateCartQuantity = async (userId, bookId, quantity) => {
+  try {
+    const response = await fetch(`http://localhost:5000/api/cart/updatequantity?userId=${userId}&bookId=${bookId}&quantity=${quantity}`, {
+      method: "PUT"
+    });
+
+    if (!response.ok) throw new Error("Failed to update quantity");
+    return true;
+  } catch (error) {
+    console.error("UpdateCartQuantity error:", error);
+    return false;
+  }
+};
+
+
+
+
+
+export const RemoveFromCart = async (userId, bookId) => {
+  try {
+    const response = await fetch(`http://localhost:5000/api/cart/removefromcart?userId=${userId}&bookId=${bookId}`, {
+      method: "DELETE"
+    });
+
+    if (!response.ok) throw new Error("Failed to remove item");
+    return true;
+  } catch (error) {
+    console.error("RemoveFromCart error:", error);
+    return false;
+  }
+};
+
+
+
+
+
+
 
 
 /*  All Commented Below is for fetching books from Google API

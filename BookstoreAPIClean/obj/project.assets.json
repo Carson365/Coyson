@@ -4778,24 +4778,31 @@
     ]
   },
   "packageFolders": {
-    "/Users/coycrowder/.nuget/packages/": {}
+    "C:\\Users\\carso\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/coycrowder/MIS 321/321Project/Coyson/BookstoreAPIClean/BookstoreApiClean.csproj",
+      "projectUniqueName": "C:\\Users\\carso\\Documents\\Code\\321\\Coyson\\BookstoreAPIClean\\BookstoreApiClean.csproj",
       "projectName": "BookstoreApiClean",
-      "projectPath": "/Users/coycrowder/MIS 321/321Project/Coyson/BookstoreAPIClean/BookstoreApiClean.csproj",
-      "packagesPath": "/Users/coycrowder/.nuget/packages/",
-      "outputPath": "/Users/coycrowder/MIS 321/321Project/Coyson/BookstoreAPIClean/obj/",
+      "projectPath": "C:\\Users\\carso\\Documents\\Code\\321\\Coyson\\BookstoreAPIClean\\BookstoreApiClean.csproj",
+      "packagesPath": "C:\\Users\\carso\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\carso\\Documents\\Code\\321\\Coyson\\BookstoreAPIClean\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "/Users/coycrowder/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\carso\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net9.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -4858,7 +4865,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.200/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.201/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

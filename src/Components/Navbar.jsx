@@ -10,10 +10,11 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   const handleLoginClick = () => {
-    if (!user) {
+    if (!user?.id) {
       navigate('/login');
     }
   };
+  
 
   return (
     <nav className="navbar navbar-dark bg-dark position-fixed w-100" style={styles.navbar}>
@@ -47,7 +48,7 @@ const Navbar = () => {
             onClick={handleLoginClick}
           >
             <div style={styles.nameContainer}>
-              {user && user !== 'Guest' ? (
+              {user?.id ? (
                 <>
                   <span style={styles.welcomeText}>Welcome,</span>
                   <span style={styles.userName}>{user.name}</span>
@@ -59,7 +60,9 @@ const Navbar = () => {
                 </>
               )}
             </div>
-            <img src={user ? user.profileImg : defaultProfile} alt="Profile" style={styles.profileImage} />
+            {user?.id && (
+              <img src={user.profileImg || defaultProfile} alt="Profile" style={styles.profileImage} />
+            )}
           </div>
         </div>
       </div>

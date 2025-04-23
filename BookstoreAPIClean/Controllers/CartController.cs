@@ -12,43 +12,26 @@ public class CartController : ControllerBase
     private readonly AppDbContext _context;
     public CartController(AppDbContext context) => _context = context;
 
-    [HttpPost("login")]
-    public async Task<ActionResult<object>> Login(string username, string password)
+    [HttpGet("fetchcart")]
+    public async Task<IActionResult> FetchCart(int userId)
     {
-        var user = await _context.Customers
-            .FirstOrDefaultAsync(c => c.Email == username && c.Password == password);
-
-        if (user == null)
-        {
-            user = new Customer
-            {
-                Email = username,
-                Password = password,
-                FirstName = "",
-                LastName = ""
-            };
-            _context.Customers.Add(user);
-            await _context.SaveChangesAsync();
-        }
-
         var cart = await _context.Transactions
             .Include(t => t.Items)
-            .Where(t => t.CustID == user.CustID && !t.hasCheckedOut)
-            .FirstOrDefaultAsync();
+            .ThenInclude(i => i.Book)
+            .FirstOrDefaultAsync(t => t.CustID == userId && !t.hasCheckedOut);
 
-        var cartItems = cart?.Items
-            .Select(i => (object)new
-            {
-                i.BookID,
-                i.Quantity,
-                i.PriceAtPurchase
-            }) ?? new List<object>();
+        if (cart == null)
+            return Ok(new { cartItems = new List<object>() });
 
-        return Ok(new
+        var items = cart.Items.Select(i => new
         {
-            userId = user.CustID,
-            cartItems
+            i.BookID,
+            i.Quantity,
+            i.PriceAtPurchase,
+            BookTitle = i.Book?.Title
         });
+
+        return Ok(new { cartItems = items });
     }
 
     [HttpPost("addtocart")]
@@ -90,6 +73,54 @@ public class CartController : ControllerBase
         await _context.SaveChangesAsync();
         return Ok();
     }
+
+    [HttpDelete("removefromcart")]
+    public async Task<IActionResult> RemoveFromCart(int userId, int bookId)
+    {
+        var cart = await _context.Transactions
+            .Include(t => t.Items)
+            .FirstOrDefaultAsync(t => t.CustID == userId && !t.hasCheckedOut);
+
+        if (cart == null) return NotFound("Cart not found");
+
+        var item = cart.Items.FirstOrDefault(i => i.BookID == bookId);
+        if (item == null) return NotFound("Item not found");
+
+        if (item.Quantity > 1)
+        {
+            item.Quantity--;
+        }
+        else
+        {
+            _context.TransactionItems.Remove(item);
+        }
+
+        await _context.SaveChangesAsync();
+        return Ok();
+    }
+
+
+    [HttpPut("updatequantity")]
+public async Task<IActionResult> UpdateQuantity(int userId, int bookId, int quantity)
+{
+    if (quantity < 1) return BadRequest("Quantity must be at least 1");
+
+    var cart = await _context.Transactions
+        .Include(t => t.Items)
+        .FirstOrDefaultAsync(t => t.CustID == userId && !t.hasCheckedOut);
+
+    if (cart == null) return NotFound("Cart not found");
+
+    var item = cart.Items.FirstOrDefault(i => i.BookID == bookId);
+    if (item == null) return NotFound("Item not found");
+
+    item.Quantity = quantity;
+    await _context.SaveChangesAsync();
+
+    return Ok();
+}
+
+
 
     [HttpPost("checkout")]
     public async Task<IActionResult> Checkout(int userId)

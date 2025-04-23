@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
-import { booksByGenre } from "../Api";
+import { booksByGenre, AddToCart  } from "../Api";
 import { useUser } from '../UserContext';
 
 const Card = ({ book, type = "bookPage", showAlert }) => {
@@ -8,24 +8,24 @@ const Card = ({ book, type = "bookPage", showAlert }) => {
   const { user } = useUser();
   const { setUser } = useUser();
 
-  const handleCardClick = () => {
-    if(type == "addToCart"){
-      if (user){
-        const bookExists = user.books.some(b => b.bookID === book.bookID);
-
-        if (!bookExists) {
-          user.books.push(book);
+  const handleCardClick = async () => {
+    if (type === "addToCart") {
+      if (user && user.id) {
+        const updatedCart = await AddToCart(user.id, book.bookID, book.price);
+        if (updatedCart) {
+          setUser(prev => ({ ...prev, cart: updatedCart }));
           showAlert("Book Added to Cart");
         } else {
-          showAlert("Book Already in Cart");
+          showAlert("Failed to Add Book to Cart");
         }
       } else {
-        navigate('/login')
+        navigate("/login");
       }
-    } else if (type == "bookPage"){
+    } else if (type === "bookPage") {
       navigate(`/book/:${encodeURIComponent(book.bookID)}`);
     }
   };
+  
 
   const cardStyle = {
     width: "100%",

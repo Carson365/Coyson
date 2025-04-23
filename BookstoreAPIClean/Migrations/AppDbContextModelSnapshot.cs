@@ -69,7 +69,7 @@ namespace BookstoreApiClean.Migrations
 
             modelBuilder.Entity("BookstoreApiClean.Models.Customer", b =>
                 {
-                    b.Property<int>("CustID")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
@@ -80,27 +80,28 @@ namespace BookstoreApiClean.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Password")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<int>("Points")
                         .HasColumnType("int");
 
-                    b.HasKey("CustID");
+                    b.Property<string>("ProfileImageUrl")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .HasMaxLength(1024)
+                        .HasColumnType("varchar(1024)");
+
+                    b.HasKey("Id");
 
                     b.ToTable("Customers");
                 });
 
-            modelBuilder.Entity("Transaction", b =>
+            modelBuilder.Entity("BookstoreApiClean.Models.Transaction", b =>
                 {
                     b.Property<int>("TransID")
                         .ValueGeneratedOnAdd()
@@ -111,6 +112,9 @@ namespace BookstoreApiClean.Migrations
 
                     b.Property<DateTime>("DatePurchased")
                         .HasColumnType("datetime(6)");
+
+                    b.Property<bool>("hasCheckedOut")
+                        .HasColumnType("tinyint(1)");
 
                     b.HasKey("TransID");
 
@@ -146,7 +150,7 @@ namespace BookstoreApiClean.Migrations
                     b.ToTable("TransactionItems");
                 });
 
-            modelBuilder.Entity("Transaction", b =>
+            modelBuilder.Entity("BookstoreApiClean.Models.Transaction", b =>
                 {
                     b.HasOne("BookstoreApiClean.Models.Customer", "Customer")
                         .WithMany("Transactions")
@@ -165,7 +169,7 @@ namespace BookstoreApiClean.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Transaction", "Transaction")
+                    b.HasOne("BookstoreApiClean.Models.Transaction", "Transaction")
                         .WithMany("Items")
                         .HasForeignKey("TransID")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -181,7 +185,7 @@ namespace BookstoreApiClean.Migrations
                     b.Navigation("Transactions");
                 });
 
-            modelBuilder.Entity("Transaction", b =>
+            modelBuilder.Entity("BookstoreApiClean.Models.Transaction", b =>
                 {
                     b.Navigation("Items");
                 });
