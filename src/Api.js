@@ -1,4 +1,5 @@
 import { GetBookByID } from "./BookData";
+import { useUser } from './UserContext';
 
 export let booksByGenre = {};
 
@@ -82,20 +83,17 @@ export const GetBookByGenre = async (genreID) => {
   });
 };
 
-export const AuthenticateUser = (token) => {
+export const AuthenticateUser = (token, setUser) => {
+  const userData = {
+    name: "Coy",
+    email: "coy@example.com",
+    role: "member",
+    books: [],
+  };
 
-  const user = {
-    FirstName: "",
-    LastName: "",
-    Email: "",
-    DateOfAccountCreation: "",
-    Points: 0,
-  }
+  setUser(userData);
+};
 
-  // fetch
-  
-  return user;
-}
 
 /*  All Commented Below is for fetching books from Google API
 

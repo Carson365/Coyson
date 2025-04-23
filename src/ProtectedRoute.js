@@ -1,10 +1,14 @@
 import { useUser } from './UserContext';
 import { Navigate } from 'react-router-dom';
 
-const ProtectedRoute = ({ children }) => {
+export const CartProtectedRoute = ({ children }) => {
   const { user } = useUser();
 
   return user ? children : <Navigate to="/login" replace />;
 };
 
-export default ProtectedRoute;
+export const LoginProtectedRoute = ({ children }) => {
+  const { user } = useUser();
+
+  return !user ? children : <Navigate to="/" replace />;
+};

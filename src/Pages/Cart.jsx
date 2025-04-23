@@ -37,7 +37,7 @@ function Cart() {
                 {/* Left - Cart items */}
                 <div style={{ width: '75%', overflowY: 'auto', padding: '1rem', paddingTop: '1rem' }} className="cart-container">
                     <h3 id="CardTitle">Your Cart</h3>
-                    <div className="cart-items">
+                    <div className="cart-items" style={{ marginTop: '-1rem' }}>
                         <UserCart />
                     </div>
                 </div>

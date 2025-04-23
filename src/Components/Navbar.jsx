@@ -2,44 +2,56 @@ import React from 'react';
 import defaultProfile from '../assets/defaultProfile.png';
 import cartIcon from '../assets/icons8-shopping-cart-48.png';
 import searchIcon from '../assets/search.png';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useUser } from '../UserContext';
 
 const Navbar = () => {
   const { user } = useUser();
+  const navigate = useNavigate();
+
+  const handleLoginClick = () => {
+    if (!user) {
+      navigate('/login');
+    }
+  };
+
   return (
     <nav className="navbar navbar-dark bg-dark position-fixed w-100" style={styles.navbar}>
       <div className="container-fluid d-flex justify-content-between align-items-center">
 
         <div className="navbar-brand" style={styles.homeButton}>
-            <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
+          <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
             <h3 style={{ margin: 0 }}>3rd & Chester</h3>
-            </Link>
+          </Link>
         </div>
 
         <div className="d-flex align-items-center">
           <ul className="navbar-nav flex-row" style={styles.navItems}>
             <li className="nav-item mx-3 text-center">
-              <a href="/#/search" className="nav-link d-flex flex-column align-items-center" style={styles.link}>
+              <Link to="/search" className="nav-link d-flex flex-column align-items-center" style={styles.link}>
                 <span style={styles.transactionsText}>Search</span>
                 <img src={searchIcon} alt="Search" style={styles.transactionsIcon} />
-              </a>
+              </Link>
             </li>
 
             <li className="nav-item mx-3 text-center">
-              <a href="/#/cart" className="nav-link d-flex flex-column align-items-center" style={styles.link}>
+              <Link to="/cart" className="nav-link d-flex flex-column align-items-center" style={styles.link}>
                 <span style={styles.cartText}>View Cart</span>
                 <img src={cartIcon} alt="Cart" style={styles.cartIcon} />
-              </a>
+              </Link>
             </li>
           </ul>
 
-          <a href="/#/login" className="d-flex text-decoration-none align-items-center ms-3">
+          <div
+            className="d-flex text-decoration-none align-items-center ms-3"
+            style={{ cursor: 'pointer' }}
+            onClick={handleLoginClick}
+          >
             <div style={styles.nameContainer}>
-              {user !== 'Guest' ? (
+              {user && user !== 'Guest' ? (
                 <>
                   <span style={styles.welcomeText}>Welcome,</span>
-                  <span style={styles.userName}>{user ? `${user.name}` : "Guest"}</span>
+                  <span style={styles.userName}>{user.name}</span>
                 </>
               ) : (
                 <>
@@ -49,7 +61,7 @@ const Navbar = () => {
               )}
             </div>
             <img src={defaultProfile} alt="Profile" style={styles.profileImage} />
-          </a>
+          </div>
         </div>
       </div>
     </nav>

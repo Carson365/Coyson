@@ -6,16 +6,20 @@ import { useUser } from '../UserContext';
 const Card = ({ book, type = "bookPage" }) => {
   const navigate = useNavigate();
   const { user } = useUser();
-   const { setUser } = useUser();
+  const { setUser } = useUser();
 
   const handleCardClick = () => {
     if(type == "addToCart"){
-      const bookExists = user.books.some(b => b.bookID === book.bookID);
+      if (user){
+        const bookExists = user.books.some(b => b.bookID === book.bookID);
 
-      if (!bookExists) {
-        user.books.push(book);
+        if (!bookExists) {
+          user.books.push(book);
+        } else {
+          alert("Book already in cart");
+        }
       } else {
-        alert("Book already in cart");
+        navigate('/login')
       }
     } else if (type == "bookPage"){
       navigate(`/book/:${encodeURIComponent(book.bookID)}`);
