@@ -98,3 +98,40 @@ strong {
   text-align: center;
   font-weight: bold;
 }
+
+.alert-banner {
+  width: 100%;
+  background-color: transparent;
+  color: yellow;
+  font-size: 2rem;
+  font-weight: bold;
+  padding: 10px 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1050;
+  text-align: center;
+  font-size: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 70px;
+}
+
+.alert-close-btn {
+  margin-left: 20px;
+  background: none;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  color: #212529;
+  font-size: 18px;
+}
+
+.alert-banner button:focus {
+  outline: none;
+}
+/*
+body {
+  padding-top: 50px; 
+}*/

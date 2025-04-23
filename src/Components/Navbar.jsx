@@ -18,7 +18,6 @@ const Navbar = () => {
   return (
     <nav className="navbar navbar-dark bg-dark position-fixed w-100" style={styles.navbar}>
       <div className="container-fluid d-flex justify-content-between align-items-center">
-
         <div className="navbar-brand" style={styles.homeButton}>
           <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
             <h3 style={{ margin: 0 }}>3rd & Chester</h3>
@@ -81,7 +80,7 @@ const styles = {
     borderRadius: '50%',
     objectFit: 'cover',
     clipPath: 'circle(38% at 50% 50%)',
-    marginLeft: '2px',
+    //marginLeft: '2px',
   },
   nameContainer: {
     display: 'flex',

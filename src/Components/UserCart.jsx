@@ -5,7 +5,12 @@ function UserCart() {
   const { user } = useUser();
 
   if (!user || !Array.isArray(user.books) || user.books.length === 0) {
-    return <div>No books in cart.</div>;
+    return (
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100px', color: 'white' }}>
+        Your cart is empty
+      </div>
+    );
+    
   }
 
   return (

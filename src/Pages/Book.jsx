@@ -6,9 +6,25 @@ import { GetBookByID } from '../BookData.js';
 import Carousel from '../Components/Carousels';
 import './Book.css';
 
+function getAlertTextColor(alertMessage){
+  if (alertMessage.includes('Book Added to Cart')) {
+    return 'green';
+  } else if (alertMessage.includes('Book Already in Cart')) {
+    return 'red';
+  }
+}
+
 function Book() {
   const { bookID } = useParams();
   const [book, setBook] = useState(null);
+  const [alertMessage, setAlertMessage] = useState('');
+
+  useEffect(() => {
+    if (alertMessage) {
+      const timer = setTimeout(() => setAlertMessage(''), 1500);
+      return () => clearTimeout(timer);
+    }
+  }, [alertMessage]);
 
   useEffect(() => {
     const cleanID = bookID.startsWith(':') ? bookID.slice(1) : bookID;
@@ -27,7 +43,14 @@ function Book() {
 
   return (
     <>
-      <Navbar use="Guest" />
+      <Navbar />
+
+      {alertMessage && (
+        <div className="alert-banner" style={{ color: getAlertTextColor(alertMessage) }}>
+          <span>{alertMessage}</span>
+        </div>
+      )}
+
       <div
         style={{
           display: 'flex',
@@ -67,7 +90,7 @@ function Book() {
         </div>
         <div className="selected-book">
           <p id="addToCart">Click to add to cart</p>
-          <Card book={book} type={"addToCart"} />
+          <Card book={book} type="addToCart" showAlert={setAlertMessage} />
         </div>
       </div>
       <Carousel genre={book.genreID} />

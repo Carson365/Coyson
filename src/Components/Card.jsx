@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { booksByGenre } from "../Api";
 import { useUser } from '../UserContext';
 
-const Card = ({ book, type = "bookPage" }) => {
+const Card = ({ book, type = "bookPage", showAlert }) => {
   const navigate = useNavigate();
   const { user } = useUser();
   const { setUser } = useUser();
@@ -15,8 +15,9 @@ const Card = ({ book, type = "bookPage" }) => {
 
         if (!bookExists) {
           user.books.push(book);
+          showAlert("Book Added to Cart");
         } else {
-          alert("Book already in cart");
+          showAlert("Book Already in Cart");
         }
       } else {
         navigate('/login')

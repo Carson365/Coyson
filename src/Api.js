@@ -83,23 +83,53 @@ export const GetBookByGenre = async (genreID) => {
   });
 };
 
-export const AuthenticateUser = (token, setUser, profileURL) => {
+export const AuthenticateUser = (token) => {
+
   const userData = {
     id: token,
     name: "Coy",
-    email: "coy@example.com",
-    role: "member",
-    profileImg: profileURL ? profileURL : require('./assets/defaultProfile.png'),
+    email: "",
+    role: "",
+    profileImg: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSN-p2XOT4ks6ZjiZuhhZWUMcvGvvb-woRgrw&s",
     books: [],
+    points: 370,
   };
 
-  if(userData.id == ""){
+  // Fetch user by token, if user found populate userData else leave empty
+
+  if(userData.id == null){
     return false;
   } else {
-    setUser(userData);
-    return true;
+    return userData;
   }
 };
+
+// Create new user in the database
+export async function CreateUser(){
+  const user = {
+      id: "",
+      email: "",
+      profileImg: "",
+      books: [],
+      points: 0,
+  };
+  
+  /* Create a new user 
+  const response = await fetch("http://localhost:5000/api/customer", {
+      method: "POST",
+      headers: {
+      "Content-Type": "application/json",
+      },
+      body: JSON.stringify(user),
+  });
+  
+  if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+  }
+  
+  const data = await response.json();
+  */
+}
 
 
 /*  All Commented Below is for fetching books from Google API

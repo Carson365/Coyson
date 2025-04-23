@@ -2,7 +2,6 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import Navbar from '../Components/Navbar';
 import BooksByGenre from '../Components/BooksByGenre';
-import { genreIDs } from '../Api';
 import './Genre.css';
 
 function Genre() {

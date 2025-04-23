@@ -19,7 +19,18 @@ function Login() {
 
     try {
       const user = await login(email, password);
-      AuthenticateUser(user.user.accessToken, setUser);
+
+      const authenticatedUser = AuthenticateUser(user.user.accessToken);
+
+      switch (authenticatedUser) {
+        case false:
+          //createUser();
+          console.log("creating user")
+          break;
+        default:
+          setUser(authenticatedUser);
+      }
+      
       navigate(-1);
     } catch (error) {
       setError('Login failed. Please check your email and password.');
@@ -31,10 +42,17 @@ function Login() {
     try {
       const result = await signInWithPopup(auth, googleProvider);
       const user = result.user;
-  
-      console.log(user.email);
-      AuthenticateUser(user.accessToken, setUser, user.photoURL) ? console.log('true') : console.log('false')
-      navigate(-1); 
+
+      const authenticatedUser = AuthenticateUser(user.accessToken);
+
+      switch (authenticatedUser) {
+        case false:
+          //createUser();
+          console.log("creating user")
+          break;
+        default:
+          setUser(authenticatedUser);
+      }
     } catch (error) {
       console.error('Google login failed:', error.message);
       setError('Google login failed. Please try again.');
@@ -46,8 +64,17 @@ const handleMicrosoftLogin = async () => {
     const result = await signInWithPopup(auth, microsoftProvider);
     const user = result.user;
     const token = await user.getIdToken();
-    AuthenticateUser(token, setUser)
-    console.log('Microsoft login successful:', user.email);
+    
+    const authenticatedUser = AuthenticateUser(token);
+
+      switch (authenticatedUser) {
+        case false:
+          //createUser();
+          console.log("creating user")
+          break;
+        default:
+          setUser(authenticatedUser);
+      }
   } catch (error) {
     console.error('Microsoft login failed:', error.message);
   }
@@ -98,7 +125,7 @@ const handleMicrosoftLogin = async () => {
               onChange={(e) => setPassword(e.target.value)}
             />
 
-            <input type="submit" value="Log In" />
+            <input type="submit" value="Log In / Sign Up" />
           </form>
 
           {error && <p style={{ color: 'red', marginTop: '10px' }}>{error}</p>}
@@ -106,7 +133,14 @@ const handleMicrosoftLogin = async () => {
 
         <div className="form-footer">
           <div>
-            <span>Don't have an account?</span> <a href="#">Sign Up</a>
+          <span>Don't have an account? </span>
+            <a
+              href="#"
+              onClick={(e) => {
+              e.preventDefault();
+              navigate('/');
+              }}
+            >Continue as Guest</a>
           </div>
         </div>
       </div>
