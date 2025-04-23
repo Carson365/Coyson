@@ -83,15 +83,22 @@ export const GetBookByGenre = async (genreID) => {
   });
 };
 
-export const AuthenticateUser = (token, setUser) => {
+export const AuthenticateUser = (token, setUser, profileURL) => {
   const userData = {
+    id: token,
     name: "Coy",
     email: "coy@example.com",
     role: "member",
+    profileImg: profileURL ? profileURL : require('./assets/defaultProfile.png'),
     books: [],
   };
 
-  setUser(userData);
+  if(userData.id == ""){
+    return false;
+  } else {
+    setUser(userData);
+    return true;
+  }
 };
 
 

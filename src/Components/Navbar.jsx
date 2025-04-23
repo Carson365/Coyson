@@ -60,7 +60,7 @@ const Navbar = () => {
                 </>
               )}
             </div>
-            <img src={defaultProfile} alt="Profile" style={styles.profileImage} />
+            <img src={user ? user.profileImg : defaultProfile} alt="Profile" style={styles.profileImage} />
           </div>
         </div>
       </div>

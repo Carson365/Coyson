@@ -3,6 +3,8 @@ import { login } from '../AuthenticateHelper';
 import { useNavigate } from 'react-router-dom';
 import { AuthenticateUser } from '../Api.js';
 import { useUser } from '../UserContext.js';
+import { auth, googleProvider, microsoftProvider } from '../FireBase.js'; 
+import { signInWithPopup } from 'firebase/auth';
 import './Login.css';
 
 function Login() {
@@ -18,12 +20,38 @@ function Login() {
     try {
       const user = await login(email, password);
       AuthenticateUser(user.user.accessToken, setUser);
-      navigate('/');
+      navigate(-1);
     } catch (error) {
       setError('Login failed. Please check your email and password.');
       console.error('Login failed:', error.message);
     }
   };
+
+  const handleGoogleLogin = async () => {
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      const user = result.user;
+  
+      console.log(user.email);
+      AuthenticateUser(user.accessToken, setUser, user.photoURL) ? console.log('true') : console.log('false')
+      navigate(-1); 
+    } catch (error) {
+      console.error('Google login failed:', error.message);
+      setError('Google login failed. Please try again.');
+    }
+  };
+  
+const handleMicrosoftLogin = async () => {
+  try {
+    const result = await signInWithPopup(auth, microsoftProvider);
+    const user = result.user;
+    const token = await user.getIdToken();
+    AuthenticateUser(token, setUser)
+    console.log('Microsoft login successful:', user.email);
+  } catch (error) {
+    console.error('Microsoft login failed:', error.message);
+  }
+};
 
   useEffect(() => {
     document.body.classList.add('login-page-body');
@@ -38,8 +66,12 @@ function Login() {
 
           <div className="social-login">
             <ul>
-              <li className="google"><a href="#">Google</a></li>
-              <li className="fb"><a href="#">Facebook</a></li>
+              <li className="google">
+                <a href="#" onClick={handleGoogleLogin}>Google</a>
+              </li>
+              <li className="fb">
+                <a href="#" onClick={handleMicrosoftLogin}>Microsoft</a>
+              </li>
             </ul>
           </div>
 

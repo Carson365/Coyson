@@ -48,7 +48,7 @@ a:hover {
 }
 
 .form-body {
-  background-color: #4a304d;
+  background-color: maroon;
   overflow: hidden;
   padding: 50px;
   color: #ffffff;
@@ -137,6 +137,7 @@ li.fb {
 
 li.fb a::before {
   margin: 0;
+  background-image: url("../assets/Microsoft.png");
 }
 
 @media only screen and (max-width: 400px) {
