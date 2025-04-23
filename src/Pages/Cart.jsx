@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import Navbar from '../Components/Navbar';
 import { useUser } from '../UserContext';
+import { useNavigate } from 'react-router-dom';
+import { CompleteTransaction } from '../Api.js';
 import UserCart from '../Components/UserCart';
 import './Cart.css';
 
@@ -8,6 +10,8 @@ function Cart() {
     const { user, setUser } = useUser();
     const books = Array.isArray(user?.books) ? user.books : [];
     const [applyPoints, setApplyPoints] = useState(false);
+    const [showModal, setShowModal] = useState(false);
+    const navigate = useNavigate();
 
     const handleQuantityChange = (index, delta) => {
         const updatedBooks = [...books];
@@ -29,6 +33,16 @@ function Cart() {
         const discount = (user?.points || 0) / 100;
         const total = cartTotal - discount;
         return total > 0 ? total : 0;
+    };
+
+    const handleCheckoutClick = () => {
+        setShowModal(true);
+    };
+
+    const closeModal = () => {
+        setShowModal(false);
+        CompleteTransaction(applyPoints);
+        navigate('/')
     };
 
     return (
@@ -146,6 +160,7 @@ function Cart() {
                             </label>
                         </div>
                         <button
+                            onClick={handleCheckoutClick}
                             style={{
                                 marginTop: '1rem',
                                 padding: '0.75rem',
@@ -163,6 +178,61 @@ function Cart() {
                     </div>
                 </div>
             </div>
+
+            {showModal && (
+                <div style={{
+                    position: 'fixed',
+                    top: '0',
+                    left: '0',
+                    zIndex: '10000',
+                    width: '100%',
+                    height: '100%',
+                    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                }} onClick={closeModal}>
+                    <div
+                        style={{
+                            backgroundColor: 'white',
+                            padding: '2rem',
+                            borderRadius: '8px',
+                            width: 'auto', 
+                            minWidth: '300px', 
+                            maxWidth: '600px', 
+                            textAlign: 'center',
+                            height: 'auto',
+                        }}
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <h4>Checkout Summary</h4>
+                        <div>
+                            {books.map((book, index) => (
+                                <p key={index}>
+                                    {book.quantity || 1} {book.title}  ${calculateTotalPrice(book).toFixed(2)}
+                                </p>
+                            ))}
+                        </div>
+                        <hr />
+                        <strong><p style={ {color: 'black'} }>Total: ${applyPoints ? getDiscountedTotal().toFixed(2) : cartTotal.toFixed(2)}</p></strong>
+                        {applyPoints && <p>Discount Applied: ${((user?.points || 0) / 100).toFixed(2)}</p>}
+                        <button
+                            onClick={closeModal}
+                            style={{
+                                marginTop: '1rem',
+                                padding: '0.5rem 1rem',
+                                backgroundColor: '#007bff',
+                                color: 'white',
+                                border: 'none',
+                                borderRadius: '4px',
+                                cursor: 'pointer',
+                            }}
+                        >
+                            Confirm Purchase
+                        </button>
+                    </div>
+                </div>
+            )}
         </>
     );
 }

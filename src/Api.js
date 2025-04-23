@@ -131,6 +131,21 @@ export async function CreateUser(){
   */
 }
 
+// Take the price, if the user applied their points, and add the transaction to the database. Then reset their points if used and reset their active cart.
+export async function CompleteTransaction(applyPoints){
+  const { user } = useUser();
+
+  user.books.forEach(book => {
+      // Each book purchased
+  })
+
+  if(applyPoints){
+    // If user chose to apply their reward points, each point is 1 cent
+  }
+
+  // Reset books in cart and points
+}
+
 
 /*  All Commented Below is for fetching books from Google API
 
