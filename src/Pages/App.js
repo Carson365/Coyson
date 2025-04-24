@@ -10,7 +10,7 @@ import Genre from '../Pages/Genre.jsx';
 import Cart from '../Pages/Cart.jsx';
 import Login from '../Pages/Login.jsx';
 import AdminLogin from './AdminLogin.jsx';
-import AdminDashboard from './AdminDashboard.jsx';
+import AdminBookCreator from './AdminBookCreator.jsx';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -63,9 +63,9 @@ function App() {
             <Cart />
           </CartProtectedRoute>
         } />
-        <Route path="/admin/dashboard" element={
+        <Route path="/admin/createbook" element={
           <AdminProtectedRoute>
-            <AdminDashboard />
+            <AdminBookCreator />
           </AdminProtectedRoute>
         } />
       </Routes>
