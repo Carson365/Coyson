@@ -122,10 +122,17 @@ function Cart() {
                                         </div>
                                     </div>
                                     <button
-                                        onClick={() => {
-                                            const updatedCart = cart.filter((_, i) => i !== index);
-                                            setCart(updatedCart);
+                                        onClick={async () => {
+                                            const item = cart[index];
+                                            try {
+                                                await RemoveFromCart(user.id, item.book.bookID);
+                                                const updatedCart = cart.filter((_, i) => i !== index);
+                                                setCart(updatedCart);
+                                            } catch (error) {
+                                                console.error("Error removing item from backend:", error);
+                                            }
                                         }}
+
                                         style={{
                                             position: 'absolute',
                                             top: '50%',
