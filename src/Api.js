@@ -15,9 +15,15 @@ export const allGenres = [
   "Poetry",
   "Novel"
 ];
+
 export function getGenreById(id) {
   const match = genreIDs.find(g => g.id === id);
   return match ? match.genre : null;
+}
+
+export function getIdByGenre(genre) {
+  const match = genreIDs.find(g => g.genre === genre);
+  return match ? match.id : null;
 }
 
 export const genreIDs = [
@@ -244,7 +250,25 @@ export const RemoveFromCart = async (userId, bookId) => {
   }
 };
 
+export const PutBookInDB = async (book) => {
+  try {
+    const response = await fetch("http://localhost:5000/api/book", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(book)
+    });
 
+    if (!response.ok) throw new Error("Failed to add book");
+
+    const data = await response.json();
+    return true;
+  } catch (error) {
+    console.error("Error adding book:", error);
+    return false;
+  }
+}
 
 
 

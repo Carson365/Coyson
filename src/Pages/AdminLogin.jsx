@@ -21,8 +21,8 @@ function AdminLogin() {
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
-      //setAdminUser(user);
-      navigate('/admin/dashboard');
+      setAdminUser(user);
+      navigate('/admin/createbook');
     } catch (error) {
       setError("Login failed. Please check your email and password.");
       console.error("Login failed:", error.message);

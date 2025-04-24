@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import AdminSidebar from '../Components/AdminSideBar.jsx';
 import Card from '../Components/Card.jsx';
+import { PutBookInDB, getIdByGenre } from '../Api.js';
 
 function AdminBookCreator() {
   const [book, setBook] = useState({
@@ -12,7 +13,7 @@ function AdminBookCreator() {
     pageCount: 0,
     categories: '',
     rating: 0,
-    maturityRating: 0,
+    maturityRating: '',
     image: '',
     price: 0,
   });
@@ -25,10 +26,30 @@ function AdminBookCreator() {
     }));
   };
 
-  const handleOnClick = () => {
-    console.log("Book Created:", book);
-    // Replace this with a POST request to your backend later
+  const handleOnClick = async () => {
+    if (book.categories.length > 0) {
+      book.genreID = getIdByGenre(book.categories);
+    }
+  
+    const result = await PutBookInDB(book);
+  
+    if (result) {
+      setBook({
+        title: '',
+        subtitle: '',
+        authors: '',
+        publisher: '',
+        description: '',
+        pageCount: 0,
+        categories: '',
+        rating: 0,
+        maturityRating: '',
+        image: '',
+        price: 0,
+      });
+    }
   };
+  
 
   return (
     <div style={{ display: 'flex', minHeight: '100vh', backgroundColor: '#333', color: 'white' }}>
