@@ -180,19 +180,29 @@ export const CompleteTransaction = async (userId, applyPoints) => {
 
 
 
-export const Checkout = async (userId) => {
+export const Checkout = async (userId, usePoints) => {
   try {
-    const response = await fetch(`http://localhost:5000/api/cart/checkout?userId=${userId}`, {
+    const response = await fetch(`http://localhost:5000/api/cart/checkout?userId=${userId}&usePoints=${usePoints}`, {
       method: "POST"
     });
 
     if (!response.ok) throw new Error("Checkout failed.");
-    return true;
+
+    const data = await response.json();
+
+    // Defensive return in case backend doesn't send expected fields
+    return {
+      newPointTotal: data?.newPointTotal ?? 0,
+      pointsUsed: data?.pointsUsed ?? 0,
+      pointsEarned: data?.pointsEarned ?? 0
+    };
   } catch (error) {
     console.error("Checkout error:", error);
-    return false;
+    return null;
   }
 };
+
+
 
 export const ClearCart = (setUser) => {
   setUser(prev => ({ ...prev, cart: [] }));

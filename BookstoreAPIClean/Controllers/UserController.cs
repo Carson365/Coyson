@@ -61,6 +61,19 @@ public class UserController : ControllerBase
         var user = await _context.Customers.FindAsync(id);
         return user is null ? NotFound() : Ok(user);
     }
+
+    [HttpPost("addpoints")]
+public async Task<IActionResult> AddPoints(int userId, int points)
+{
+    var user = await _context.Customers.FindAsync(userId);
+    if (user == null) return NotFound();
+
+    user.Points += points;
+    await _context.SaveChangesAsync();
+
+    return Ok(new { newPointTotal = user.Points });
+}
+
 }
 
 public class UserLoginDto

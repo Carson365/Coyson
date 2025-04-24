@@ -93,8 +93,8 @@ namespace BookstoreApiClean.Migrations
 
                     b.Property<string>("Token")
                         .IsRequired()
-                        .HasMaxLength(1024)
-                        .HasColumnType("varchar(1024)");
+                        .HasMaxLength(768)
+                        .HasColumnType("varchar(768)");
 
                     b.HasKey("Id");
 
@@ -112,6 +112,9 @@ namespace BookstoreApiClean.Migrations
 
                     b.Property<DateTime>("DatePurchased")
                         .HasColumnType("datetime(6)");
+
+                    b.Property<int>("PointsUsed")
+                        .HasColumnType("int");
 
                     b.Property<bool>("hasCheckedOut")
                         .HasColumnType("tinyint(1)");

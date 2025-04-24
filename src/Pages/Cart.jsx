@@ -7,7 +7,8 @@ import UserCart from '../Components/UserCart';
 import './Cart.css';
 
 function Cart() {
-    const { user } = useUser();
+    const [rewardMessage, setRewardMessage] = useState(null);
+    const { user, setUser } = useUser();
     const [cart, setCart] = useCart();
     const [applyPoints, setApplyPoints] = useState(false);
     const [showModal, setShowModal] = useState(false);
@@ -66,16 +67,20 @@ function Cart() {
 
     const closeModal = async () => {
         setShowModal(false);
+        const result = await Checkout(user.id, applyPoints);
       
-        const success = await Checkout(user.id);
-      
-        if (success) {
-          setCart([]); // clear frontend cart
-          navigate('/');
+        if (result !== null) {
+          setCart([]);
+          setUser(prev => ({ ...prev, points: result.newPointTotal }));
+          setRewardMessage(`You earned ${result.pointsEarned} points${applyPoints ? ` (used ${result.pointsUsed})` : ''}.`);
         } else {
           console.error("Checkout failed.");
         }
       };
+      
+      
+      
+      
       
       
       
@@ -230,6 +235,53 @@ function Cart() {
                     </div>
                 </div>
             )}
+            {rewardMessage && (
+  <div style={{
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    zIndex: 10001,
+    width: '100%',
+    height: '100%',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
+  }} onClick={() => setRewardMessage(null)}>
+    <div
+      style={{
+        backgroundColor: 'white',
+        padding: '2rem',
+        borderRadius: '8px',
+        minWidth: '300px',
+        maxWidth: '600px',
+        textAlign: 'center'
+      }}
+      onClick={(e) => e.stopPropagation()}
+    >
+      <h4>Thanks for your purchase!</h4>
+      <p>{rewardMessage}</p>
+      <button
+        onClick={() => {
+          setRewardMessage(null);
+          navigate('/');
+        }}
+        style={{
+          marginTop: '1rem',
+          padding: '0.5rem 1rem',
+          backgroundColor: '#007bff',
+          color: 'white',
+          border: 'none',
+          borderRadius: '4px',
+          cursor: 'pointer',
+        }}
+      >
+        Close
+      </button>
+    </div>
+  </div>
+)}
+
         </>
     );
 }

@@ -123,18 +123,36 @@ public async Task<IActionResult> UpdateQuantity(int userId, int bookId, int quan
 
 
     [HttpPost("checkout")]
-    public async Task<IActionResult> Checkout(int userId)
-    {
-        var cart = await _context.Transactions
-            .FirstOrDefaultAsync(t => t.CustID == userId && !t.hasCheckedOut);
+public async Task<IActionResult> Checkout(int userId, [FromQuery] bool usePoints = false)
+{
+    var cart = await _context.Transactions
+        .Include(t => t.Items)
+        .FirstOrDefaultAsync(t => t.CustID == userId && !t.hasCheckedOut);
 
-        if (cart != null)
-        {
-            cart.hasCheckedOut = true;
-            cart.DatePurchased = DateTime.UtcNow;
-            await _context.SaveChangesAsync();
-        }
+    if (cart == null) return NotFound();
 
-        return Ok();
-    }
+    var user = await _context.Customers.FindAsync(userId);
+    if (user == null) return NotFound();
+
+    decimal subtotal = cart.Items.Sum(i => i.Quantity * i.PriceAtPurchase);
+    int pointsUsed = usePoints ? Math.Min(user.Points, (int)(subtotal * 100)) : 0;
+    decimal discount = pointsUsed / 100m;
+    decimal totalAfterDiscount = Math.Max(subtotal - discount, 0);
+    int pointsEarned = (int)(totalAfterDiscount * 5);
+
+    cart.hasCheckedOut = true;
+    cart.DatePurchased = DateTime.UtcNow;
+    cart.PointsUsed = pointsUsed;
+
+    user.Points = user.Points - pointsUsed + pointsEarned;
+
+    await _context.SaveChangesAsync();
+    return Ok(new
+{
+    newPointTotal = user.Points,
+    pointsUsed = pointsUsed,
+    pointsEarned = pointsEarned
+});
+}
+
 }
