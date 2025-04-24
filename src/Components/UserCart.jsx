@@ -1,16 +1,15 @@
-import { useUser } from '../UserContext';
+import { useCart } from '../UserContext';
 import Card from './Card';
 
 function UserCart() {
-  const { user } = useUser();
+  const [cart] = useCart();
 
-  if (!user || !Array.isArray(user.books) || user.books.length === 0) {
+  if (!Array.isArray(cart) || cart.length === 0) {
     return (
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100px', color: 'white' }}>
         Your cart is empty
       </div>
     );
-    
   }
 
   return (
@@ -22,20 +21,10 @@ function UserCart() {
           gap: '2rem',
         }}
       >
-        {user.books.map((book, index) => (
+        {cart.map((item, index) => (
           <div key={index}>
             <div style={{ display: 'flex', justifyContent: 'center' }}>
-              <Card book={book} />
-            </div>
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                gap: '1rem',
-                marginTop: '0.75rem',
-              }}
-            >
+              <Card book={item.book} />
             </div>
           </div>
         ))}

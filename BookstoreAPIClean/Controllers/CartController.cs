@@ -25,14 +25,14 @@ public class CartController : ControllerBase
 
         var items = cart.Items.Select(i => new
         {
-            i.BookID,
+            i.Book, // Full book object
             i.Quantity,
-            i.PriceAtPurchase,
-            BookTitle = i.Book?.Title
+            i.PriceAtPurchase
         });
 
         return Ok(new { cartItems = items });
     }
+
 
     [HttpPost("addtocart")]
     public async Task<IActionResult> AddToCart(int userId, int bookId, decimal price)

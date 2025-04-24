@@ -53,3 +53,7 @@ export const UserProvider = ({ children }) => {
 };
 
 export const useUser = () => useContext(UserContext);
+export const useCart = () => {
+  const { cart, setCart } = useContext(UserContext);
+  return [cart, setCart];
+};

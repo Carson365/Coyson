@@ -15,6 +15,10 @@ export const allGenres = [
   "Poetry",
   "Novel"
 ];
+export function getGenreById(id) {
+  const match = genreIDs.find(g => g.id === id);
+  return match ? match.genre : null;
+}
 
 export const genreIDs = [
   { id: 101, genre: "Fiction" },
@@ -123,12 +127,16 @@ export const FetchCart = async (userId) => {
     }
 
     const data = await response.json();
+
+    // Don't flatten or remap – just return the backend structure
     return data.cartItems ?? [];
   } catch (error) {
     console.error("Cart fetch error:", error);
     return [];
   }
 };
+
+
 
 
 
@@ -149,19 +157,26 @@ export const AddToCart = async (userId, bookId, price) => {
 };
 
 // Take the price, if the user applied their points, and add the transaction to the database. Then reset their points if used and reset their active cart.
-export async function CompleteTransaction(applyPoints){
-  const { user } = useUser();
+// Api.js
+export const CompleteTransaction = async (userId, applyPoints) => {
+  try {
+    const response = await fetch("http://localhost:5000/api/cart/complete", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ userId, applyPoints })
+    });
 
-  user.books.forEach(book => {
-      // Each book purchased
-  })
+    if (!response.ok) throw new Error("Checkout failed.");
 
-  if(applyPoints){
-    // If user chose to apply their reward points, each point is 1 cent
+    return await response.json();
+  } catch (error) {
+    console.error("Error completing transaction:", error);
+    return false;
   }
+};
 
-  // Reset books in cart and points
-}
 
 
 
@@ -226,101 +241,99 @@ export const RemoveFromCart = async (userId, bookId) => {
 
 
 
-/*  All Commented Below is for fetching books from Google API
 
-const getRandomPrice = () => {
-  const prices = [19.99, 24.99, 29.99, 34.99, 39.99];
-  const randomIndex = Math.floor(Math.random() * prices.length);
-  return prices[randomIndex];
-};
+// const getRandomPrice = () => {
+//   const prices = [19.99, 24.99, 29.99, 34.99, 39.99];
+//   const randomIndex = Math.floor(Math.random() * prices.length);
+//   return prices[randomIndex];
+// };
 
-const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+// const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
-export const fetchAllGenres = async () => {
-  for (const genre of allGenres) {
-    await fetchBooksByGenre(genre, 64);
-    await delay(200);
-  }
-  console.log(booksByGenre);
-};
+// export const fetchAllGenres = async () => {
+//   for (const genre of allGenres) {
+//     await fetchBooksByGenre(genre, 64);
+//     await delay(200);
+//   }
+//   console.log(booksByGenre);
+// };
 
-const cleanBookData = (book, matchedGenres) => {
-  const genreid = genreIDs.find(g => g.genre === matchedGenres[0])?.id ?? null;
-  count++;
+// const cleanBookData = (book, matchedGenres) => {
+//   const genreid = genreIDs.find(g => g.genre === matchedGenres[0])?.id ?? null;
+//   // count++;
 
-  return {
-    genreid: typeof genreid === "number" ? genreid : null,
-    title: book?.title ?? "Unavailable",
-    subtitle: book?.subtitle ?? null,
-    authors: Array.isArray(book?.authors) 
-      ? (book.authors[0] ?? "Unavailable") 
-      : (book?.authors ?? "Unavailable"),
-    publisher: book?.publisher ?? null,
-    description: book?.description ?? null,
-    pageCount: typeof book?.pageCount === "number" ? book.pageCount : null,
-    categories: Array.isArray(matchedGenres) 
-      ? (matchedGenres[0] ?? null) 
-      : (matchedGenres ?? null),
-    rating: typeof book?.averageRating === "number" ? book.averageRating : null,
-    maturityRating: book?.maturityRating ?? null,
-    image: book?.imageLinks?.thumbnail ?? null,
-    price: getRandomPrice()
-  }  
-};
-
-
-const isDuplicateBook = (book, genre) => {
-  return booksByGenre[genre]?.some(existingBook => existingBook.title === book.title) ?? false;
-};
+//   return {
+//     genreid: typeof genreid === "number" ? genreid : null,
+//     title: book?.title ?? "Unavailable",
+//     subtitle: book?.subtitle ?? null,
+//     authors: Array.isArray(book?.authors) 
+//       ? (book.authors[0] ?? "Unavailable") 
+//       : (book?.authors ?? "Unavailable"),
+//     publisher: book?.publisher ?? null,
+//     description: book?.description ?? null,
+//     pageCount: typeof book?.pageCount === "number" ? book.pageCount : null,
+//     categories: Array.isArray(matchedGenres) 
+//       ? (matchedGenres[0] ?? null) 
+//       : (matchedGenres ?? null),
+//     rating: typeof book?.averageRating === "number" ? book.averageRating : null,
+//     maturityRating: book?.maturityRating ?? null,
+//     image: book?.imageLinks?.thumbnail ?? null,
+//     price: getRandomPrice()
+//   }  
+// };
 
 
-export const fetchBooksByGenre = async (genre, batchSize) => {
-  let booksFetched = 0;
-  let startIndex = 0;
+// const isDuplicateBook = (book, genre) => {
+//   return booksByGenre[genre]?.some(existingBook => existingBook.title === book.title) ?? false;
+// };
+
+
+// export const fetchBooksByGenre = async (genre, batchSize) => {
+//   let booksFetched = 0;
+//   let startIndex = 0;
 
   
-  while (booksFetched < batchSize) {
-    const remainingBooks = batchSize - booksFetched;
-    const currentBatchSize = Math.min(remainingBooks, 40);
+//   while (booksFetched < batchSize) {
+//     const remainingBooks = batchSize - booksFetched;
+//     const currentBatchSize = Math.min(remainingBooks, 40);
 
-    try {
-      const response = await fetch(
-        `https://www.googleapis.com/books/v1/volumes?q=subject:${genre}&maxResults=${currentBatchSize}&startIndex=${startIndex}`
-      );
+//     try {
+//       const response = await fetch(
+//         `https://www.googleapis.com/books/v1/volumes?q=subject:${genre}&maxResults=${currentBatchSize}&startIndex=${startIndex}`
+//       );
 
-      const data = await response.json();
+//       const data = await response.json();
 
-      if (!data.items || data.items.length === 0) break;
+//       if (!data.items || data.items.length === 0) break;
 
-      for (const item of data.items) {
-        const info = item.volumeInfo;
-        if (!info || !info.imageLinks?.thumbnail) continue;
+//       for (const item of data.items) {
+//         const info = item.volumeInfo;
+//         if (!info || !info.imageLinks?.thumbnail) continue;
 
-        const forcedGenre = [genre];
-        const cleanedBook = cleanBookData(info, forcedGenre);
+//         const forcedGenre = [genre];
+//         const cleanedBook = cleanBookData(info, forcedGenre);
 
-        if (!booksByGenre[genre]) {
-          booksByGenre[genre] = [];
-        }
+//         if (!booksByGenre[genre]) {
+//           booksByGenre[genre] = [];
+//         }
 
-        if (!isDuplicateBook(cleanedBook, genre)) {
-          booksByGenre[genre].push(cleanedBook);
-          booksFetched++;
-        }
+//         if (!isDuplicateBook(cleanedBook, genre)) {
+//           booksByGenre[genre].push(cleanedBook);
+//           AddBookToDB(cleanedBook);
+//           booksFetched++;
+//         }
 
-        if (booksFetched >= batchSize) break; 
-      }
+//         if (booksFetched >= batchSize) break; 
+//       }
 
-      startIndex += currentBatchSize;
-    } catch (error) {
-      console.error(`Error fetching books for genre "${genre}":`, error);
-      break;
-    }
-  }
-  await delay(500);
-  console.log(booksByGenre)
+//       startIndex += currentBatchSize;
+//     } catch (error) {
+//       console.error(`Error fetching books for genre "${genre}":`, error);
+//       break;
+//     }
+//   }
+//   await delay(500);
+//   console.log(booksByGenre)
   
-  return booksByGenre;
-};
-*/
-
+//   return booksByGenre;
+// };
