@@ -114,8 +114,6 @@ export const AuthenticateUser = async ({ token, name, email, profileImg }) => {
   }
 };
 
-
-
 export const FetchCart = async (userId) => {
   try {
     const response = await fetch(`http://localhost:5000/api/cart/fetchcart?userId=${userId}`);
@@ -149,10 +147,6 @@ export const AddToCart = async (userId, bookId, price) => {
     return null;
   }
 };
-
-
-
-
 
 // Take the price, if the user applied their points, and add the transaction to the database. Then reset their points if used and reset their active cart.
 export async function CompleteTransaction(applyPoints){

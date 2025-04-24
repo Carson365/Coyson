@@ -1,4 +1,4 @@
-import { initializeApp } from 'firebase/app';
+import { initializeApp, getApps } from 'firebase/app';
 import { getAuth, GoogleAuthProvider, OAuthProvider } from 'firebase/auth';
 import { getAnalytics } from 'firebase/analytics';
 
@@ -12,7 +12,8 @@ const firebaseConfig = {
   measurementId: 'G-HMZQQS243G'
 };
 
-const app = initializeApp(firebaseConfig);
+const app = getApps().find(app => app.name === "userApp") 
+  || initializeApp(firebaseConfig, "userApp");
 
 const auth = getAuth(app);
 

@@ -3,7 +3,7 @@ import { login } from '../AuthenticateHelper';
 import { useNavigate } from 'react-router-dom';
 import { AuthenticateUser, FetchCart } from "../Api";
 import { useUser } from '../UserContext.js';
-import { auth, googleProvider, microsoftProvider } from '../FireBase.js'; 
+import { auth, googleProvider, microsoftProvider } from '../Firebase.js'; 
 import { signInWithPopup } from 'firebase/auth';
 
 import './Login.css';
@@ -19,7 +19,7 @@ function Login() {
     e.preventDefault();
   
     try {
-      const user = await login(email, password); // your hash+auth function
+      const user = await login(email, password);
       const token = user.uid;
   
       const authenticatedUser = await AuthenticateUser({
@@ -58,6 +58,7 @@ function Login() {
       });
   
       if (authenticatedUser) {
+        console.log("Authenticated User:", authenticatedUser);
         setUser(authenticatedUser);
         const cart = await FetchCart(authenticatedUser.id);
         navigate(-1);

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { HashRouter as Router, Routes, Route } from "react-router-dom";
-import { CartProtectedRoute, LoginProtectedRoute } from '../ProtectedRoute.js';
+import { CartProtectedRoute, LoginProtectedRoute, AdminProtectedRoute } from '../ProtectedRoute.js';
 import { booksByGenre, genreIDs as GENRES, GetBookByGenre } from '../Api.js';
 
 import Home from '../Pages/Home.jsx';
@@ -9,6 +9,8 @@ import Book from '../Pages/Book.jsx';
 import Genre from '../Pages/Genre.jsx';
 import Cart from '../Pages/Cart.jsx';
 import Login from '../Pages/Login.jsx';
+import AdminLogin from './AdminLogin.jsx';
+import AdminDashboard from './AdminDashboard.jsx';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -50,6 +52,7 @@ function App() {
         <Route path="/search" element={<Search />} />
         <Route path="/book/:bookID" element={<Book />} />
         <Route path="/genre/:genre" element={<Genre />} />
+        <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/login" element={
           <LoginProtectedRoute>
             <Login />
@@ -59,6 +62,11 @@ function App() {
           <CartProtectedRoute>
             <Cart />
           </CartProtectedRoute>
+        } />
+        <Route path="/admin/dashboard" element={
+          <AdminProtectedRoute>
+            <AdminDashboard />
+          </AdminProtectedRoute>
         } />
       </Routes>
     </Router>

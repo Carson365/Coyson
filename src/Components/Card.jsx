@@ -14,6 +14,7 @@ const Card = ({ book, type = "bookPage", showAlert }) => {
         const updatedCart = await AddToCart(user.id, book.bookID, book.price);
         if (updatedCart) {
           setUser(prev => ({ ...prev, cart: updatedCart }));
+          console.log(user)
           showAlert("Book Added to Cart");
         } else {
           showAlert("Failed to Add Book to Cart");
