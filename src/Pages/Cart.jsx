@@ -17,35 +17,35 @@ function Cart() {
     const handleQuantityChange = async (index, delta) => {
         const item = cart[index];
         const newQty = (item.quantity || 1) + delta;
-      
+
         if (newQty < 1) {
-          // Remove item from frontend
-          const updatedCart = cart.filter((_, i) => i !== index);
-          setCart(updatedCart);
-      
-          // Remove from backend
-          try {
-            await RemoveFromCart(user.id, item.book.bookID);
-          } catch (error) {
-            console.error("Failed to remove item from cart:", error);
-          }
+            // Remove item from frontend
+            const updatedCart = cart.filter((_, i) => i !== index);
+            setCart(updatedCart);
+
+            // Remove from backend
+            try {
+                await RemoveFromCart(user.id, item.book.bookID);
+            } catch (error) {
+                console.error("Failed to remove item from cart:", error);
+            }
         } else {
-          // Update quantity normally
-          const updatedCart = cart.map((c, i) =>
-            i === index ? { ...c, quantity: newQty } : c
-          );
-          setCart(updatedCart);
-      
-          try {
-            await UpdateCartQuantity(user.id, item.book.bookID, newQty);
-          } catch (error) {
-            console.error("Failed to update quantity:", error);
-          }
+            // Update quantity normally
+            const updatedCart = cart.map((c, i) =>
+                i === index ? { ...c, quantity: newQty } : c
+            );
+            setCart(updatedCart);
+
+            try {
+                await UpdateCartQuantity(user.id, item.book.bookID, newQty);
+            } catch (error) {
+                console.error("Failed to update quantity:", error);
+            }
         }
-      };
-      
-      
-      
+    };
+
+
+
 
     const calculateTotalPrice = (item) => {
         const qty = item.quantity || 1;
@@ -65,25 +65,27 @@ function Cart() {
         setShowModal(true);
     };
 
-    const closeModal = async () => {
+    const closeModal = async (confirmed) => {
         setShowModal(false);
-        const result = await Checkout(user.id, applyPoints);
-      
-        if (result !== null) {
-          setCart([]);
-          setUser(prev => ({ ...prev, points: result.newPointTotal }));
-          setRewardMessage(`You earned ${result.pointsEarned} points${applyPoints ? ` (used ${result.pointsUsed})` : ''}.`);
-        } else {
-          console.error("Checkout failed.");
+        if (confirmed) {
+            const result = await Checkout(user.id, applyPoints);
+
+            if (result !== null) {
+                setCart([]);
+                setUser(prev => ({ ...prev, points: result.newPointTotal }));
+                setRewardMessage(`You earned ${result.pointsEarned} points${applyPoints ? ` (used ${result.pointsUsed})` : ''}.`);
+            } else {
+                console.error("Checkout failed.");
+            }
         }
-      };
-      
-      
-      
-      
-      
-      
-      
+    };
+
+
+
+
+
+
+
 
     return (
         <>
@@ -195,7 +197,7 @@ function Cart() {
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
-                }} onClick={closeModal}>
+                }} onClick={closeModal(true)}>
                     <div
                         style={{
                             backgroundColor: 'white',
@@ -236,51 +238,51 @@ function Cart() {
                 </div>
             )}
             {rewardMessage && (
-  <div style={{
-    position: 'fixed',
-    top: 0,
-    left: 0,
-    zIndex: 10001,
-    width: '100%',
-    height: '100%',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center'
-  }} onClick={() => setRewardMessage(null)}>
-    <div
-      style={{
-        backgroundColor: 'white',
-        padding: '2rem',
-        borderRadius: '8px',
-        minWidth: '300px',
-        maxWidth: '600px',
-        textAlign: 'center'
-      }}
-      onClick={(e) => e.stopPropagation()}
-    >
-      <h4>Thanks for your purchase!</h4>
-      <p>{rewardMessage}</p>
-      <button
-        onClick={() => {
-          setRewardMessage(null);
-          navigate('/');
-        }}
-        style={{
-          marginTop: '1rem',
-          padding: '0.5rem 1rem',
-          backgroundColor: '#007bff',
-          color: 'white',
-          border: 'none',
-          borderRadius: '4px',
-          cursor: 'pointer',
-        }}
-      >
-        Close
-      </button>
-    </div>
-  </div>
-)}
+                <div style={{
+                    position: 'fixed',
+                    top: 0,
+                    left: 0,
+                    zIndex: 10001,
+                    width: '100%',
+                    height: '100%',
+                    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                }} onClick={() => setRewardMessage(null)}>
+                    <div
+                        style={{
+                            backgroundColor: 'white',
+                            padding: '2rem',
+                            borderRadius: '8px',
+                            minWidth: '300px',
+                            maxWidth: '600px',
+                            textAlign: 'center'
+                        }}
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <h4>Thanks for your purchase!</h4>
+                        <p>{rewardMessage}</p>
+                        <button
+                            onClick={() => {
+                                setRewardMessage(null);
+                                navigate('/');
+                            }}
+                            style={{
+                                marginTop: '1rem',
+                                padding: '0.5rem 1rem',
+                                backgroundColor: '#007bff',
+                                color: 'white',
+                                border: 'none',
+                                borderRadius: '4px',
+                                cursor: 'pointer',
+                            }}
+                        >
+                            Close
+                        </button>
+                    </div>
+                </div>
+            )}
 
         </>
     );
