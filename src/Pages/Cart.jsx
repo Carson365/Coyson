@@ -65,19 +65,21 @@ function Cart() {
         setShowModal(true);
     };
 
-    const closeModal = async (confirmed) => {
+    const handleConfirmCheckout = async () => {
         setShowModal(false);
-        if (confirmed) {
-            const result = await Checkout(user.id, applyPoints);
-
-            if (result !== null) {
-                setCart([]);
-                setUser(prev => ({ ...prev, points: result.newPointTotal }));
-                setRewardMessage(`You earned ${result.pointsEarned} points${applyPoints ? ` (used ${result.pointsUsed})` : ''}.`);
-            } else {
-                console.error("Checkout failed.");
-            }
+        const result = await Checkout(user.id, applyPoints);
+    
+        if (result !== null) {
+            setCart([]);
+            setUser(prev => ({ ...prev, points: result.newPointTotal }));
+            setRewardMessage(`You earned ${result.pointsEarned} points${applyPoints ? ` (used ${result.pointsUsed})` : ''}.`);
+        } else {
+            console.error("Checkout failed.");
         }
+    };
+    
+    const handleBackdropClick = () => {
+        setShowModal(false); // Just closes, doesn't confirm
     };
 
 
@@ -204,7 +206,7 @@ function Cart() {
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
-                }} onClick={closeModal(true)}>
+                }} onClick={handleBackdropClick}>
                     <div
                         style={{
                             backgroundColor: 'white',
@@ -228,7 +230,7 @@ function Cart() {
                         <strong><p style={{ color: 'black' }}>Total: ${applyPoints ? getDiscountedTotal().toFixed(2) : cartTotal.toFixed(2)}</p></strong>
                         {applyPoints && <p>Discount Applied: ${((user?.points || 0) / 100).toFixed(2)}</p>}
                         <button
-                            onClick={closeModal}
+                            onClick={handleConfirmCheckout}
                             style={{
                                 marginTop: '1rem',
                                 padding: '0.5rem 1rem',
